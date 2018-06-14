@@ -4,7 +4,7 @@ app.controller('productsController', ['$scope', '$http','localStorageService', '
     function($scope, $http, localStorageService, $rootScope, UserService, favoritesService) {
     let self = this;
 
-    UserService.getUserProducts();
+    UserService.getRandomPoints();
 
     self.addToCart = function (point) {
        cartService.addToCart(point);

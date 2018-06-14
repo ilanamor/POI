@@ -3,58 +3,74 @@
  */
 //-------------------------------------------------------------------------------------------------------------------
 app.factory('UserService', ['$http', 'localStorageService', '$filter', '$rootScope', '$location',
-    function($http, localStorageService, $filter, $rootScope, $location) {
+    function ($http, localStorageService, $filter, $rootScope, $location) {
         let service = {};
 
-        service.initUser = function(){
+        service.initUser = function () {
             $rootScope.guest = true;
             $rootScope.UserName = '';
-            $rootScope.LastLogin = '';
-            if(localStorageService.cookie.isSupported){
-                let user = localStorageService.cookie.get('user');
-                if(user){
+            //$rootScope.LastLogin = '';
+            if (localStorageService.isSupported) {
+                let user = localStorageService.get('user');
+                if (user) {
                     $rootScope.UserName = user.UserName; // extract cookie data
-                    $rootScope.LastLogin = user.Date;
+                    //$rootScope.LastLogin = user.Date;
 
                     $http.defaults.headers.common = {                  //use the token for the user requets
-                        'my-Token': user.Token,
-                        'user' : user.UserName
+                        'token': user.token,
+                        'user': user.UserName
                     };
 
-                    $rootScope.guest=false;                 //update that this is not a guest
+                    $rootScope.guest = false;                 //update that this is not a guest
 
-                    //update the cookie for the new login time!
-                    var cookieObject = {UserName: user.UserName, Date: new Date(), Token: user.Token }
-                    localStorageService.cookie.set('user',cookieObject);
+                    //update the userObject
+                    var userObject = { UserName: user.UserName, token: user.token }
+                    localStorageService.set('user', userObject);
                 }
             }
         };
 
-        service.getUserProducts = function(){
-            if(!$rootScope.top5) {
-                $http.get('/cakes/top5')
+
+        service.getRandomPoints = function () {
+            if (!$rootScope.top3) {
+                $http.get('point/RandomPoints/3')
                     .then(function (res) {
-                        $rootScope.top5 = res.data;
+                        $rootScope.top3 = res.data;
                     }).catch(function (e) {
-                    return Promise.reject(e);
-                });
-            }
-            if(!$rootScope.newProducts){
-                $http.get('/cakes/logged/getNewCakes')
-                    .then(function (res) {
-                        $rootScope.newProducts = res.data;
-                    })
-                    .catch(function (e) {
                         return Promise.reject(e);
                     });
             }
+            if (!$rootScope.guest) {
+                if (!$rootScope.popular2) {
+                    let user = localStorageService.get('user').UserName;
+                    let token = localStorageService.get('user').token;
+                    $http.get('reg/user/twoPopularPoints/' + user, { headers: { 'x-access-token': token } })
+                        .then(function (res) {
+                            $rootScope.popular2 = res.data;
+                        })
+                        .catch(function (e) {
+                            return Promise.reject(e);
+                        });
+                }
+                if (!$rootScope.latest2) {
+                    let user = localStorageService.get('user').UserName;
+                    let token = localStorageService.get('user').token;
+                    $http.get('reg/user/twoLastPoints/' + user, { headers: { 'x-access-token': token } })
+                        .then(function (res) {                         
+                            $rootScope.latest2 = res.data;
+                        })
+                        .catch(function (e) {
+                            return Promise.reject(e);
+                        });
+                }
+            }
         };
 
-        service.getRecommendedProducts = function(){
-            if(!$rootScope.guest && !$rootScope.recommendedCakes){
+        service.getRecommendedProducts = function () {
+            if (!$rootScope.guest && !$rootScope.recommendedpoints) {
                 $http.get('/users/recommandation/' + $rootScope.UserName)
                     .then(function (res) {
-                        $rootScope.recommendedCakes = res.data;
+                        $rootScope.recommendedpoints = res.data;
                     })
                     .catch(function (e) {
                         return Promise.reject(e);
@@ -62,13 +78,28 @@ app.factory('UserService', ['$http', 'localStorageService', '$filter', '$rootSco
             }
         };
 
-        service.login = function(user) {
-            return $http.post('/users/login', user)
-                .then(function(response) {
+        service.getDetails = function () {
+            let points = $rootScope.latest2;
+            let details=[];
+            for (var i = 0; i < points.length; i++) {
+                $http.get('point/details/' + points[i].PointID)
+                    .then(function (res) {
+                        details.append(res.data);
+                    })
+                    .catch(function (e) {
+                        return Promise.reject(e);
+                    });
+            }
+            $rootScope.pointsDetails=details;
+        };
+
+        service.login = function (user) {
+            return $http.post('auth/login', user)
+                .then(function (response) {
                     let token = response.data.token;
                     $http.defaults.headers.common = {
-                        'my-Token': token,
-                        'user' : user.UserName
+                        'token': token,
+                        'user': user.UserName
                     };
                     return Promise.resolve(response);
                 })
@@ -78,7 +109,7 @@ app.factory('UserService', ['$http', 'localStorageService', '$filter', '$rootSco
         };
 
         service.logout = function () {
-            localStorageService.cookie.remove('user');
+            localStorageService.remove('user');
             $location.path("/");
         };
         return service;
