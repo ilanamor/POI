@@ -18,7 +18,7 @@
         <h1 class="header">Top Popular Recommended For You</h1>
         <span ng-repeat="c in $root.popular2" class="container">
             <img ng-src="{{c.Pic}}" class="imgTop3 image" />
-            <h1 class="headerText"> {{c.PointName}}</h1>
+            <h1 class="headerText" ng-click="prdctCtrl.open(c.PointID)"> {{c.PointName}}</h1>
             <div class="middle">
                 <div class="text">
                     <h1 class="headerText"> {{c.PointName}}</h1>
