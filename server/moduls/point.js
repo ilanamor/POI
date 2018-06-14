@@ -5,6 +5,15 @@ var morgan = require('morgan');
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var DButilsAzure = require('../DButil');
 
+
+//works
+router.get('/allCategories', function (req, res) {
+    DButilsAzure.execQuery('SELECT CategoryID, CategoryName FROM Category').then(function (result) {
+        res.send(result).catch(function (err) { res.status(400).send(err); });
+    });
+});
+
+/*----------------------------------------------------------------------------------------------------------------*/
 //works
 router.get('/', function (req, res) {
     DButilsAzure.execQuery('SELECT PointID, PointName, Pic FROM Point').then(function (result) {

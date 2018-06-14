@@ -3,25 +3,26 @@
 app.controller('registerController', ['$scope', '$location', '$window', '$http',
     function($scope, $location, $window, $http) {
         let self = this;
-        self.user = {UserName: '', Password: '', FirstName: '', LastName: '' , Address: '',
-            City: '', Country: '', Phone: '', Mail: '',CreditCardNumber: '', isADmin: 0
-            , Question1: '', Question2: '', Answer1: '', Answer2: '', Category1: ''
-            ,Category2: '', Category3: ''};
+        self.user = {UserName: '', Password: '', FirstName: '', LastName: '' , City: '',
+        Country: '', Email: '', Answer1: '', Answer2: '',Category: ''};
         self.Countries = [];
+        self.catArray=[];
+        //self.categories=[];
 
         loadXMLDoc(); // load cuntries document
 
-        $http.get('/categories') // get categories
+        $http.get('point/allCategories') // get categories
             .then(function (res) {
-                self.categories = res.data;
+                self.categories=res.data;
             })
             .catch(function (e) {
                 return Promise.reject(e);
             });
 
-        self.register = function(valid) { // submit registration
+        self.register = function(valid) { // submit registration         
             if (valid) {
-                $http.post('users/register',self.user).then(function (success) {
+                self.user.Category=self.catArray;
+                $http.post('auth/register',self.user).then(function (success) {
                     $window.alert('Register Successfully');
                     $location.path('/login');
                 }, function (error) {

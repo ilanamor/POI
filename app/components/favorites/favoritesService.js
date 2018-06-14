@@ -8,7 +8,7 @@ app.factory('favoritesService', ['$http', 'localStorageService', '$filter', '$ro
 
         service.addTofavorites = function (point) {
             if ($rootScope.guest){
-                alert('If you want to shop please log in first!');
+                alert('If you want to add a point please log in first!');
             }
             else{
                 let valueStored = localStorageService.get($rootScope.UserName);
