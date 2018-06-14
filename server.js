@@ -1,4 +1,5 @@
 var express = require('express');
+var path= require('path');
 var bodyParser = require('body-parser');
 var app = express();
 var cors = require('cors');
@@ -13,6 +14,7 @@ var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
+app.use(express.static(path.join(__dirname,'app')));
 const secret='ilanaKarin';
 
 var port = 3000;
@@ -43,8 +45,10 @@ app.use('/reg', function(req,res,next){
 app.use('/reg/user', users)
 app.use('/point', point)
 app.use('/auth', auth)
-
+app.set('port', process.env.PORT || 3000)
 
 app.listen(port, function () {
     console.log('Example app listening on port ' + port);
 })
+
+module.exports= app

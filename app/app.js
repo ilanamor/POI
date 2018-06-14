@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('CakesShop', [ 'ngRoute', 'LocalStorageModule', 'ngDialog']);
+var app = angular.module('pointsOfInterest', [ 'ngRoute', 'LocalStorageModule', 'ngDialog']);
 
 app.config(['$locationProvider', function($locationProvider) {
     $locationProvider.hashPrefix('');
@@ -43,12 +43,12 @@ app.config( ['$routeProvider', function($routeProvider) {
             templateUrl : "./components/login/login.html"})
         .when("/register", {
             templateUrl : "./components/register/register.html"
-        }).when("/cakes", {
-        templateUrl : "./components/cakes/cakes.html"
+        }).when("/points", {
+        templateUrl : "./components/points/points.html"
     }).when("/about", {
         templateUrl : "./shared/about.html"
-    }).when("/cart", {
-        templateUrl : "./components/cart/cart.html"
+    }).when("/favorites", {
+        templateUrl : "./components/favorites/favorites.html"
     }).otherwise({
         redirectTo : "/"
     });

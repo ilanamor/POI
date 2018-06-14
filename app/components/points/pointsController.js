@@ -1,12 +1,12 @@
 
 
-app.controller('cakesController', ['$scope', '$http','localStorageService','UserService', 'cakesService', '$rootScope','cartService',
-    function($scope, $http, localStorageService, UserService, cakesService, $rootScope, cartService) {
+app.controller('pointsController', ['$scope', '$http','localStorageService','UserService', 'pointsService', '$rootScope','favoritesService',
+    function($scope, $http, localStorageService, UserService, pointsService, $rootScope, favoritesService) {
         let self = this;
 
-        self.categoryHeader = "All Cakes";
+        self.categoryHeader = "All points";
         self.showAll = true;
-        self.sortedOptions =[ { name:'Cake name', label:'CakeName', reverse:false},
+        self.sortedOptions =[ { name:'point name', label:'pointName', reverse:false},
                               { name:'Price - low to high', label:'price', reverse:false},
                               { name:'Price - high to low', label:'price', reverse:true}];
         self.filterBy = "";
@@ -14,11 +14,11 @@ app.controller('cakesController', ['$scope', '$http','localStorageService','User
         self.reverseSort = false;
 
         if(!$rootScope.guest) {
-            cakesService.getRecommendedProducts();  // gets all the recommended cakes
+            pointsService.getRecommendedProducts();  // gets all the recommended points
         }
-        cakesService.allCakes()
+        pointsService.allpoints()
             .then(function(){
-                self.cakes = cakesService.cakes; // now all the cakes are save in cakeService.cakes !
+                self.points = pointsService.points; // now all the points are save in pointservice.points !
 
             });
         $http.get('/categories') // get categories
@@ -32,21 +32,21 @@ app.controller('cakesController', ['$scope', '$http','localStorageService','User
         self.selectCategory = function (categoryName) {
             self.showAll = false;
             self.categoryHeader = categoryName;
-            $http.get('/cakes/byCategory/'+categoryName).then(function (res) {
-                self.cakes = res.data;
+            $http.get('/points/byCategory/'+categoryName).then(function (res) {
+                self.points = res.data;
             });
             self.orderBy = "";
         };
 
         self.selectAll = function () {
             self.showAll = true;
-            self.categoryHeader = "All Cakes";
-            self.cakes = cakesService.cakes;
+            self.categoryHeader = "All points";
+            self.points = pointsService.points;
             self.orderBy ="";
         };
 
-        self.addToCart = function (cake) {
-            cartService.addToCart(cake);
+        self.addTofavorites = function (point) {
+            favoritesService.addTofavorites(point);
         }
 
     }]);

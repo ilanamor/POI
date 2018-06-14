@@ -1,56 +1,56 @@
 
 
-<div id="main" ng-controller="cakesController  as cakeCtrl">
+<div id="main" ng-controller="pointsController  as pointCtrl">
     <div class="category" >
         <div style="height: 5em">
-            <img src="assets\images\littlest-cake-shop-logo.gif" class="logo2" alt="logo">
+            <img src="assets\images\littlest-point-shop-logo.gif" class="logo2" alt="logo">
         </div>
-        <div ng-repeat="category in cakeCtrl.categories">
-           <button ng-click="cakeCtrl.selectCategory(category.CategotyName)" class="category_button">{{category.CategotyName}}</button>
+        <div ng-repeat="category in pointCtrl.categories">
+           <button ng-click="pointCtrl.selectCategory(category.CategotyName)" class="category_button">{{category.CategotyName}}</button>
         </div>
-        <button ng-click="cakeCtrl.selectAll()" ng-hide="cakeCtrl.showAll" class="category_button">All Cakes</button>
+        <button ng-click="pointCtrl.selectAll()" ng-hide="pointCtrl.showAll" class="category_button">All points</button>
     </div>
-    <div class="shop">
+    <div class="POI">
         <div style="height: 6.8em">
-            <select class = "selectSort" ng-model="cakeCtrl.orderBy"
-                    ng-options="c as c.name for c in cakeCtrl.sortedOptions"></select>
+            <select class = "selectSort" ng-model="pointCtrl.orderBy"
+                    ng-options="c as c.name for c in pointCtrl.sortedOptions"></select>
             <label class="sortBy">Sort By:</label>
-            <input class="selectSort" type="text" ng-model="cakeCtrl.filterBy">
+            <input class="selectSort" type="text" ng-model="pointCtrl.filterBy">
             <label class="sortBy">Search</label>
-            <label class="header_content">• • {{cakeCtrl.categoryHeader}} • •</label>
+            <label class="header_content">• • {{pointCtrl.categoryHeader}} • •</label>
         </div>
-        <div ng-repeat="p in cakeCtrl.cakes | filter : cakeCtrl.filterBy|
-                        orderBy:cakeCtrl.orderBy.label:cakeCtrl.orderBy.reverse" class="product_description" >
+        <div ng-repeat="p in pointCtrl.points | filter : pointCtrl.filterBy|
+                        orderBy:pointCtrl.orderBy.label:pointCtrl.orderBy.reverse" class="product_description" >
             <img ng-src="{{p.ImagePath}}" class="img_product"/>
             <div class="description">
                 <label class="price"> {{p.price}} $ </label>
-                <label class="header_description"> {{p.CakeName}}</label>
+                <label class="header_description"> {{p.pointName}}</label>
                 </br>
                 <label class="content_description">{{p.Description}}</label>
             </div >
             <div class="">
-                <button class="addToCart_btn" ng-click="cakeCtrl.addToCart(p)">add to cart</button>
+                <button class="addTofavorites_btn" ng-click="pointCtrl.addTofavorites(p)">add to favorites</button>
             </div>
         </div>
     </div>
     <div class="recommended"  >
         <div ng-hide="$root.guest">
             <h1 class="recHeader">Recommended <br> for &nbsp; you</h1>
-            <span ng-repeat="p in $root.recommendedCakes" class="container" >
+            <span ng-repeat="p in $root.recommendedpoints" class="container" >
                 <img ng-src="{{p.ImagePath}}" class="imgTop5 image" style="margin-left: 3.05em"/>
                 <div class="middle" style="z-index: 1">
                      <div class="text">
-                        <h1 class="headerText"> {{p.CakeName}}</h1>
+                        <h1 class="headerText"> {{p.pointName}}</h1>
                                                 {{p.Description}}
                         <br>
                         <h1 class="headerText"> {{p.price}} $ </h1>
-                         <button class="addToCart_button" ng-click="cakeCtrl.addToCart(p)">add to cart</button>
+                         <button class="addTofavorites_button" ng-click="pointCtrl.addTofavorites(p)">add to favorites</button>
                      </div>
                 </div>
              </span>
         </div>
         <div  ng-show="$root.guest">
-            <label class="recommended_text"> Please login to see the Recommended Cakes for you</label>
+            <label class="recommended_text"> Please login to see the Recommended points for you</label>
             <img class="rcmnd_gif" src="assets\images\lovely.gif" />
         </div>
     </div>

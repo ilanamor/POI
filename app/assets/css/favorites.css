@@ -1,4 +1,4 @@
-.cartDescription {
+.favoritesDescription {
     background-color: #fdf1d9;
     color: #101010;
     font-size: 16px;
@@ -12,13 +12,13 @@
     height: 1em;
 }
 
-.headerCart{
+.headerfavorites{
     font-size: 18px;
     font-weight: bold;
     display: inline;
 }
 
-.cartImg{
+.favoritesImg{
     width: 9em;
     height: 9em;
     border: 0.5em solid white;
@@ -90,7 +90,7 @@
     height: 800em;
 }
 
-.cart_text {
+.favorites_text {
     text-align: center;
 }
 
@@ -115,6 +115,6 @@
     background-color: transparent;r: #ffc1c6;
 }
 
-input.cart_text{
+input.favorites_text{
     width: 7em;
 }

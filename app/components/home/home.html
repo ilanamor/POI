@@ -7,11 +7,11 @@
         <img ng-src="{{p.ImagePath}}" class="imgTop5 image"/>
         <div class="middle">
             <div class="text">
-               <h1 class="headerText"> {{p.CakeName}}</h1>
+               <h1 class="headerText"> {{p.pointName}}</h1>
                 {{p.Description}}
                 <br>
                 <h1 class="headerText"> {{p.price}} $ </h1>
-                <button class="addToCart_button" ng-click="prdctCtrl.addToCart(p)">add to cart</button>
+                <button class="addTofavorites_button" ng-click="prdctCtrl.addTofavorites(p)">add to favorites</button>
             </div>
         </div>
     </span>
@@ -22,11 +22,11 @@
         <img ng-src="{{c.ImagePath}}" class="imgTop5 image"/>
         <div class="middle">
             <div class="text">
-               <h1 class="headerText"> {{c.CakeName}}</h1>
+               <h1 class="headerText"> {{c.pointName}}</h1>
                 {{c.Description}}
                 <br>
                 <h1 class="headerText"> {{c.price}} $ </h1>
-                <button class="addToCart_button" ng-click="prdctCtrl.addToCart(p)">add to cart</button>
+                <button class="addTofavorites_button" ng-click="prdctCtrl.addTofavorites(p)">add to favorites</button>
             </div>
         </div>
     </span>

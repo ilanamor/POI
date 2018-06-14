@@ -1,13 +1,13 @@
 
-app.factory('cakesService', ['$http', 'localStorageService', '$filter', '$rootScope',
+app.factory('pointsService', ['$http', 'localStorageService', '$filter', '$rootScope',
     function($http, localStorageService, $filter, $rootScope) {
         let service = {};
-        service.cakes = [];
+        service.points = [];
 
         service.getRecommendedProducts = function(){
              return $http.get('/users/recommandation/logged/' + $rootScope.UserName)
                     .then(function (res) {
-                        $rootScope.recommendedCakes = res.data;
+                        $rootScope.recommendedpoints = res.data;
                         Promise.resolve(res.data);
                     })
                     .catch(function (e) {
@@ -15,12 +15,12 @@ app.factory('cakesService', ['$http', 'localStorageService', '$filter', '$rootSc
                     });
         };
 
-        service.allCakes = function(){
-            return $http.get('/cakes/')
+        service.allpoints = function(){
+            return $http.get('/points/')
                 .then(function (res) {
-                    $rootScope.allCakes = res.data;
+                    $rootScope.allpoints = res.data;
                     Promise.resolve(res.data);
-                    service.cakes = res.data;
+                    service.points = res.data;
                 })
                 .catch(function (e) {
                     return Promise.reject(e);

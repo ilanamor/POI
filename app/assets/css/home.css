@@ -157,7 +157,7 @@ footer {
     position: static;
 }
 
-.addToCart_button {
+.addTofavorites_button {
     background-color: #f58fa9;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
@@ -171,7 +171,7 @@ footer {
     text-decoration: none;
     font-weight: bold;
 }
-.addToCart_button:hover {
+.addTofavorites_button:hover {
     background-color: #ffc1c6;
 }
 

@@ -1,32 +1,32 @@
 
 'use strict';
 //-------------------------------------------------------------------------------------------------------------------
-app.controller('cartController', ['$scope', '$http','localStorageService', '$rootScope', 'ngDialog','cartService',
-    function($scope, $http, localStorageService, $rootScope, ngDialog, cartService) {
+app.controller('favoritesController', ['$scope', '$http','localStorageService', '$rootScope', 'ngDialog','favoritesService',
+    function($scope, $http, localStorageService, $rootScope, ngDialog, favoritesService) {
         let self = this;
-        self.cart = localStorageService.get($rootScope.UserName);
+        self.favorites = localStorageService.get($rootScope.UserName);
 
         let html = '<img ng-src="{{ngDialogData.ImagePath}}" class="modalImg"/> <br/> '
-            +' <label class="modalHeader">Name:</label> <label class="modalText">{{ngDialogData.CakeName}}</label>  <br/>  '
+            +' <label class="modalHeader">Name:</label> <label class="modalText">{{ngDialogData.pointName}}</label>  <br/>  '
             +' <label class="modalHeader">Price: </label> <label class="modalText"> {{ngDialogData.price}} $ </label>  <br/>'
             +' <label class="modalHeader">Category: </label> <label class="modalText">{{ngDialogData.Category}}</label> <br/>'
             +' <label class="modalHeader">Description: </label> <label class="modalText"> {{ngDialogData.Description}}</label> <br/>'
             +' <label class="modalHeader">Amount in stock: </label> <label class="modalText"> {{ngDialogData.StockAmount}}</label> <br/>';
 
 
-        self.remove = function (cake) {
-            let index = self.cart.indexOf(cake);
-            self.cart.splice(index,1);
-            localStorageService.set($rootScope.UserName, self.cart);
+        self.remove = function (point) {
+            let index = self.favorites.indexOf(point);
+            self.favorites.splice(index,1);
+            localStorageService.set($rootScope.UserName, self.favorites);
         };
 
-        self.CakeAmount = function(cake){
-            if(!cake.Amount){
-                cake.Amount = 1;
-            }else if (cake.Amount > cake.StockAmount){
-                cake.Amount = cake.StockAmount;
+        self.pointAmount = function(point){
+            if(!point.Amount){
+                point.Amount = 1;
+            }else if (point.Amount > point.StockAmount){
+                point.Amount = point.StockAmount;
             }
-            localStorageService.set($rootScope.UserName, self.cart);
+            localStorageService.set($rootScope.UserName, self.favorites);
         };
 
         self.pay = function(){
@@ -42,20 +42,20 @@ app.controller('cartController', ['$scope', '$http','localStorageService', '$roo
         };
 
         self.getTotal = function () {
-            if(self.cart) {
+            if(self.favorites) {
                 var total = 0;
-                for (var i = 0; i < self.cart.length; i++) {
-                    total += self.cart[i].price * self.cart[i].Amount;
+                for (var i = 0; i < self.favorites.length; i++) {
+                    total += self.favorites[i].price * self.favorites[i].Amount;
                 }
                 return total;
             }
         };
 
-        self.open = function(cake) {
-            cartService.selectedCake = cake;
+        self.open = function(point) {
+            favoritesService.selectedpoint = point;
             ngDialog.open({ template:html,
                             className: 'ngdialog-theme-default',
-                            data: cartService.selectedCake,
+                            data: favoritesService.selectedpoint,
                             showClose: true,
                             width: 640
             });

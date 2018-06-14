@@ -6,7 +6,7 @@
     flex-flow: row;
 }
 
-.shop{
+.POI{
     margin: 4px;
     padding: 5px;
     border: 1px solid white;
@@ -140,7 +140,7 @@
     width: 14.3em;
     height: 2em;
 }
-.addToCart_btn {
+.addTofavorites_btn {
     background-color: #f58fa9;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
@@ -155,7 +155,7 @@
     font-weight: bold;
     margin-left: 5.7em;
 }
-.addToCart_btn:hover {
+.addTofavorites_btn:hover {
     background-color: #ffc1c6;
 }
 
