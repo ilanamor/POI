@@ -1,9 +1,24 @@
-
 'use strict';
+
 //-------------------------------------------------------------------------------------------------------------------
+app.service('setHeadersToken',[ '$http', function ($http) {
+
+    let token = ""
+
+    this.set = function (t) {
+        token = t
+        $http.defaults.headers.common[ 'x-access-token' ] = t
+        console.log("setToken")
+    }
+
+}])
+
+
 app.controller('loginController', ['$scope', 'UserService', '$location', '$window', '$http','localStorageService','$rootScope',
     function($scope, UserService, $location, $window,  $http, localStorageService, $rootScope) {
-        let self = this;
+        
+    let self = this;
+    //let serverUrl = 'http://localhost:3000/'
 
         self.user = {UserName: '', Password: ''};
         self.restorePswd = false;
@@ -14,8 +29,8 @@ app.controller('loginController', ['$scope', 'UserService', '$location', '$windo
                 UserService.login(self.user).then(function (success) {
                     var token = success.data.token;
                     if (token){
-                        var cookieObject = {UserName: self.user.UserName, Date: new Date(), Token: token }
-                        localStorageService.cookie.set('user',cookieObject);
+                        var userObject = {UserName: self.user.UserName, token: token }
+                        localStorageService.set('user',userObject);
                         alert('You are logged in');
                         UserService.initUser();
                         $location.path('/');
@@ -34,21 +49,14 @@ app.controller('loginController', ['$scope', 'UserService', '$location', '$windo
             }
             else {
                 self.restorePswd = true;
-                $http.get('/users/questions/' +self.user.UserName)
-                    .then(function (res) {
-                        self.questions = res.data;
-                    })
-                    .catch(function (e) {
-                        return Promise.reject(e);
-                    });
             }
         };
         self.restore = function () {
             self.answers.UserName = self.user.UserName;
-            $http.put('/users/restorePassword', self.answers)
+            $http.post('auth/retrivePassword', self.answers)
                 .then(function(res){
                         self.password = res.data;
-                        alert('Your password is:'+self.password.Password);
+                        alert('Your password is:'+self.password);
                         self.restorePswd = false;
                     },
                     function(){

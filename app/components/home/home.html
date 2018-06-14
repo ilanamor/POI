@@ -1,36 +1,52 @@
-
-
 <div ng-controller="productsController as prdctCtrl">
-    <div class="top5">
-    <h1 class="header">Top Five Sellers</h1>
-    <span ng-repeat="p in $root.top5" class="container" >
-        <img ng-src="{{p.ImagePath}}" class="imgTop5 image"/>
-        <div class="middle">
-            <div class="text">
-               <h1 class="headerText"> {{p.pointName}}</h1>
-                {{p.Description}}
-                <br>
-                <h1 class="headerText"> {{p.price}} $ </h1>
-                <button class="addTofavorites_button" ng-click="prdctCtrl.addTofavorites(p)">add to favorites</button>
+    <div class="top3" ng-hide="!$root.guest">
+        <h1 class="header">Top Popular Points</h1>
+        <span ng-repeat="p in $root.top3" class="container">
+            <img ng-src="{{p.Pic}}" class="imgTop3 image" />
+            <div class="middle">
+                <div class="text">
+                    <h1 class="headerText"> {{p.PointName}}</h1>
+                    {{p.Description}}
+                    <br>
+                    <h1 class="headerText"> {{p.price}} $ </h1>
+                    <button class="addTofavorites_button" ng-click="prdctCtrl.addTofavorites(p)">add to favorites</button>
+                </div>
             </div>
-        </div>
-    </span>
+        </span>
     </div>
-    <div class="top5" ng-hide="$root.guest">
-        <h1 class="header">Latest products of this month</h1>
-        <span ng-repeat="c in $root.newProducts" class="container" >
-        <img ng-src="{{c.ImagePath}}" class="imgTop5 image"/>
-        <div class="middle">
-            <div class="text">
-               <h1 class="headerText"> {{c.pointName}}</h1>
-                {{c.Description}}
-                <br>
-                <h1 class="headerText"> {{c.price}} $ </h1>
-                <button class="addTofavorites_button" ng-click="prdctCtrl.addTofavorites(p)">add to favorites</button>
+    <div class="top3" ng-hide="$root.guest">
+        <h1 class="header">Top Popular Recommended For You</h1>
+        <span ng-repeat="c in $root.popular2" class="container">
+            <img ng-src="{{c.Pic}}" class="imgTop3 image" />
+            <h1 class="headerText"> {{c.PointName}}</h1>
+            <div class="middle">
+                <div class="text">
+                    <h1 class="headerText"> {{c.PointName}}</h1>
+                    {{c.Description}}
+                    <br>
+                    <h1 class="headerText"> {{c.price}} $ </h1>
+                    <button class="addTofavorites_button" ng-click="prdctCtrl.addTofavorites(p)">add to favorites</button>
+                </div>
             </div>
-        </div>
-    </span>
+        </span>
+
+    </div>
+    <div class="top3" ng-hide="$root.guest">
+        <h1 class="header">Your Latest Favorites</h1>
+        <span ng-repeat="c in $root.latest2" class="container">
+            <img ng-src="{{c.Pic}}" class="imgTop3 image" />
+            <h1 class="headerText"> {{c.PointName}}</h1>
+            <div class="middle">
+                <div class="text">
+                    <h1 class="headerText"> {{c.PointName}}</h1>
+                    {{c.Description}}
+                    {{c.Review}}
+                    <br>
+                    <h1 class="headerText"> {{c.Rank}} $ </h1>
+                    <button class="addTofavorites_button" ng-click="prdctCtrl.addTofavorites(p)">add to favorites</button>
+                </div>
+            </div>
+        </span>
 
     </div>
 </div>
-

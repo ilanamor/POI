@@ -72,7 +72,7 @@ body{
 }
 
 
-.imgTop5{
+.imgTop3{
     width: 9em;
     height: 9em;
     border: 0.5em solid white;
@@ -84,7 +84,7 @@ body{
     backface-visibility: hidden;
 }
 
-.top5{
+.top3{
     margin-left: 13em;
     margin-right: 13em;
     margin-top: 1em;
@@ -102,6 +102,7 @@ body{
     position: relative;
     width: 70%;
 }
+
 footer {
     background-color: rgb(241, 237, 237);
     font-family: Courgette, sans-serif;
@@ -127,7 +128,7 @@ footer {
     -ms-transform: translate(-50%, -50%)
 }
 
-.container:hover .imgTop5 {
+.container:hover .imgTop3 {
     opacity: 0.3;
 }
 
