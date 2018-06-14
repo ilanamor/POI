@@ -3,10 +3,10 @@ var bodyParser = require('body-parser');
 var app = express();
 var cors = require('cors');
 app.use(cors());
-var users = require('./moduls/users'); // get our users model
-var point = require('./moduls/point');
-var auth = require('./moduls/auth');
-var DButilsAzure = require('./DButil');
+var users = require('./server/moduls/users'); // get our users model
+var point = require('./server/moduls/point');
+var auth = require('./server/moduls/auth');
+var DButilsAzure = require('./server/DButil');
 var morgan= require('morgan');
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 
