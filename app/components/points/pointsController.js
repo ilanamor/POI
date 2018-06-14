@@ -30,7 +30,7 @@ app.controller('pointsController', ['$scope', '$http','localStorageService','Use
 
         self.selectCategory = function (CategoryID) {
             self.showAll = false;
-            self.categoryHeader = CategoryID;
+            self.categoryHeader = CategoryName;
             $http.get('point/'+CategoryID).then(function (res) {
                 self.points = res.data;
             });
