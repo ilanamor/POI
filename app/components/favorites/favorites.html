@@ -1,29 +1,32 @@
-<div ng-controller="favoritesController as crtCtrl">
+<div ng-controller="favoritesController as favCtrl">
 <h1 class="header">My favorites</h1>
+
+
+
     <div class="POI">
-    <span ng-show="crtCtrl.favorites.length" ng-repeat="p in crtCtrl.favorites" class="product_description">
-        <img ng-src="{{p.ImagePath}}" class="img_product"/>
+    <span ng-show="favCtrl.favorites.length" ng-repeat="p in favCtrl.favorites" class="product_description">
+        <img ng-src="{{p.Pic}}" class="img_product"/>
         <table>
             <tr>
-                <td class="header_description" style=" width: 8em; height: 2.4em;">{{p.pointName}}</td>
-                <td class="price" style="width: 8em; float: none"> {{p.price}} $</td>
+                <td class="header_description" style=" width: 8em; height: 2.4em;">{{p.PointName}}</td>
+                <td class="price" style="width: 8em; float: none"> {{p.Description}} </td>
             </tr>
             <tr>
-            <td  class="header_description" style="width: 8em">Category:</td>
-            <td class="favorites_text" style="width: 8em" >{{p.Category}}</td>
+            <!-- <td  class="header_description" style="width: 8em">Rank:</td> -->
+            <!-- <td class="favorites_text" style="width: 8em" >{{p.Rank}}</td> -->
             </tr>
             <tr>
-            <td  class="header_description" style="width: 8em">Quantity:</td>
-            <td style="width: 8em"><input type="number" ng-model="p.Amount" ng-change="crtCtrl.pointAmount(p)" min="1" max="p.StockAmount" class="favorites_text"></td>
+            <td  class="header_description" style="width: 8em">Set Number of favorite:</td>
+            <td style="width: 8em"><input type="number" ng-model="p.Rank" ng-change="favCtrl.pointAmount(p)" min="1" max="5" class="favorites_text"></td>
             </tr>
             <tr>
-                <td style="width: 8em"> <button class="description_button" ng-click="crtCtrl.open(p)" >full details</button></td>
-                <td style="width: 8em"> <button  class="description_button" ng-click="crtCtrl.remove(p)" style="margin-left: 0; padding: 0.4em 1.8em;">Remove</button></td>
+                <td style="width: 8em"> <button class="description_button" ng-click="favCtrl.open(p)" >full details</button></td>
+                <td style="width: 8em"> <button  class="description_button" ng-click="favCtrl.remove(p)" style="margin-left: 0; padding: 0.4em 1.8em;">Remove</button></td>
             </tr>
         </table>
     <br/>
-    </span>
-          <div ng-hide="crtCtrl.favorites.length">
+    </span> 
+          <div ng-hide="favCtrl.favorites.length">
             <br>
             <br>
             <label class="amount"> Your favorites is empty</label>
@@ -32,9 +35,7 @@
         </div>
     </div>
     <br/><br/><br/><br/>
-    <div ng-show="crtCtrl.favorites.length">
-    <label class="amount">Total amount: {{ crtCtrl.getTotal() | currency}}</label>
+    <div ng-show="favCtrl.favorites.length">
+    <label class="amount">Click For Save Changes!</label>
     <br/>
-    <button class="pay_button" ng-click="crtCtrl.pay()">Pay</button>
-    </div>
-</div>
+    <button class="pay_button" ng-click="favCtrl.enterOrder()">Save Favorite`s Order</button>

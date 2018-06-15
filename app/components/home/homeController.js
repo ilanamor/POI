@@ -6,8 +6,8 @@ app.controller('productsController', ['$scope', '$http','localStorageService', '
 
     UserService.getRandomPoints();
 
-    self.addToCart = function (point) {
-       cartService.addToCart(point);
+    self.addTofavorites = function (point) {
+       favoritesService.addTofavorites(point);
     }
 }]);
 
