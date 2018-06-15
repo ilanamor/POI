@@ -66,21 +66,6 @@ app.factory('UserService', ['$http', 'localStorageService', '$filter', '$rootSco
             }
         };
 
-        self.open = function(PointID) {
-            $http.get('point/details/' +PointID)
-                        .then(function (res) {
-                            ngDialog.open({ template:html,
-                                className: 'ngdialog-theme-default',
-                                data: res.data,
-                                showClose: true,
-                                width: 640
-                });
-                        })
-                        .catch(function (e) {
-                            return Promise.reject(e);
-                        });
-            
-        };
 
         service.getRecommendedProducts = function () {
             if (!$rootScope.guest && !$rootScope.recommendedpoints) {

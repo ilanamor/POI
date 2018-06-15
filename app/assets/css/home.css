@@ -176,5 +176,40 @@ footer {
     background-color: #ffc1c6;
 }
 
+.modalImg
+{
+    width: 10em;
+    height: 10em;
+    border: 0.5em solid white;
+    margin-right: 2.05em;
+    margin-left: 0.05em;
+    border-radius: 0.2em;
+    opacity: 1;
+    transition: .5s ease;
+    backface-visibility: hidden;
+    float: left;
+    margin-top: 0.8em;
+}
+
+.modalHeader {
+    color: black;
+    font-size: 0.8em;
+    text-align: center;
+    float: none;
+    margin: 0;
+    font-family: 'Shrikhand', cursive;
+}
+
+.modalText {
+    color: black;
+    font-size: 0.8em;
+    text-align: center;
+    float: none;
+    margin: 0;
+}
+.ngdialog.ngdialog-custom .ngdialog-content {
+    height: 800em;
+}
+
 
 
