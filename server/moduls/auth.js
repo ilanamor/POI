@@ -26,7 +26,7 @@ router.post('/register', function (req, res) {     //Add User
 
     DButilsAzure.execQuery(query1).then(function (result) {
         for (var i = 0; i < categories.length; i++) {
-            DButilsAzure.execQuery("insert into UserCategory values ('" + username + "', '" + categories[i] + "')").then(function (result) {
+            DButilsAzure.execQuery("insert into UserCategory values ('" + username + "', '" + categories[i].CategoryID + "')").then(function (result) {
                 res.send(true)
             }).catch(function (err) { res.status(400).send(err); });
         }

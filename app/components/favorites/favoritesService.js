@@ -5,6 +5,28 @@ app.factory('favoritesService', ['$http', 'localStorageService', '$filter', '$ro
 
         let service = {};
         service.selectedpoint = null;
+        service.points = [];
+        
+
+        service.allpoints = function(){
+            let token = localStorageService.get('user').token;
+            return $http.get('reg/user/'+$rootScope.UserName,{ headers: { 'x-access-token': token } })
+                .then(function (res) {
+                 //   $rootScope.allpoints = res.data;
+                    Promise.resolve(res.data);
+                    service.points = res.data;
+                    service.Localfavorites = localStorageService.get($rootScope.UserName+'Points');
+                    if( service.Localfavorites!=null){
+                    for (var i = 0, len = service.Localfavorites.length; i < len; i++) { 
+                        service.Localfavorites[i].OrderNum=-1;
+                       // if()
+                        service.points.push(service.Localfavorites[i]);
+                    }}
+                })
+                .catch(function (e) {
+                    return Promise.reject(e);
+                });
+        };
 
         service.addTofavorites = function (point) {
             if ($rootScope.guest){
