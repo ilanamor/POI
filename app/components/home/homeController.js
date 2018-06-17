@@ -1,46 +1,51 @@
 'use strict';
 //-------------------------------------------------------------------------------------------------------------------
-app.controller('productsController', ['$scope', '$http','localStorageService', '$rootScope', 'UserService','favoritesService','ngDialog',
-    function($scope, $http, localStorageService, $rootScope, UserService, favoritesService,ngDialog) {
-    let self = this;
+app.controller('productsController', ['$scope', '$http', 'localStorageService', '$rootScope', 'UserService', 'favoritesService', 'ngDialog',
+    function ($scope, $http, localStorageService, $rootScope, UserService, favoritesService, ngDialog) {
+        let self = this;
+        self.selectedPoint = null;
 
-    let html = '<img ng-src="{{ngDialogData.Pic}}" class="modalImg"/> <br/> '
-            +' <label class="modalHeader">Name:</label> <label class="modalText">{{ngDialogData.PointName}}</label>  <br/>  '
-            +' <label class="modalHeader">Rank: </label> <label class="modalText"> {{ngDialogData.Rank}} </label>  <br/>'
-            +' <label class="modalHeader">Num of views: </label> <label class="modalText">{{ngDialogData.NumOfView}}</label> <br/>'
-            +' <label class="modalHeader">Description: </label> <label class="modalText"> {{ngDialogData.Description}}</label> <br/>'
-            +' <label class="modalHeader">Review-1: </label> <label class="modalText"> "{{ngDialogData.Review}}"</label> <br/>'
-            +' <label class="modalHeader">Review-2: </label> <label class="modalText"> "{{ngDialogData.Review2}}"</label> <br/>';
 
-    UserService.getRandomPoints();
+        let html = '<img ng-src="{{ngDialogData.Pic}}" class="modalImg"/> <br/> '
+            + ' <label class="modalHeader">Name:</label> <label class="modalText">{{ngDialogData.PointName}}</label>  <br/>  '
+            + ' <label class="modalHeader">Rank: </label> <label class="modalText"> {{ngDialogData.Rank}} </label>  <br/>'
+            + ' <label class="modalHeader">Num of views: </label> <label class="modalText">{{ngDialogData.NumOfView}}</label> <br/>'
+            + ' <label class="modalHeader">Description: </label> <label class="modalText"> {{ngDialogData.Description}}</label> <br/>'
+            + ' <label class="modalHeader">Review-1: </label> <label class="modalText"> "{{ngDialogData.Review}}"</label> <br/>'
+            + ' <label class="modalHeader">Review-2: </label> <label class="modalText"> "{{ngDialogData.Review2}}"</label> <br/>';
 
-    self.addTofavorites = function (point) {
-       favoritesService.addTofavorites(point);
-    }
+        UserService.getRandomPoints();
 
-    self.open = function(PointID) {
-        $http.put('point/upViews/' + PointID)
-                    .catch(function (e) {
-                        return Promise.reject(e);
+        self.addTofavorites = function (point) {
+            favoritesService.addTofavorites(point);
+        }
+
+        self.open = function (point) {
+            self.selectedPoint = point;
+
+            $http.get('point/details/' + self.selectedPoint.PointID)
+                .then(function (res) {
+                    let pointDetails = res.data[0];
+                    if (res.data.length === 2) {
+                        pointDetails.Review2 = res.data[1].Review;
+                    }
+                    ngDialog.open({
+                        template: html,
+                        className: 'ngdialog-theme-default',
+                        data: pointDetails,
+                        showClose: true,
+                        width: 640
                     });
+                })
+                .catch(function (e) {
+                    return Promise.reject(e);
+                });
+            $http.put('point/upViews/' + self.selectedPoint.PointID)
+                .catch(function (e) {
+                    return Promise.reject(e);
+                });
 
-        $http.get('point/details/' + PointID)
-                    .then(function (res) {
-                        let data = res.data[0];
-                        if(res.data.length===2){
-                        data.Review2= res.data[1].Review;}
-                        ngDialog.open({ template:html,
-                            className: 'ngdialog-theme-default',
-                            data: res.data[0],
-                            showClose: true,
-                            width: 640
-            });
-                    })
-                    .catch(function (e) {
-                        return Promise.reject(e);
-                    });
-        
-    };
+        };
 
-}]);
+    }]);
 

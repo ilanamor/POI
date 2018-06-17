@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>points Of Interest</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="shortcut icon" href="assets/images/pointIcon.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="assets/images/londonIcon2.png" type="image/x-icon" />
     <script src="angularScripts/angular.js"></script>
     <script src="angularScripts/angular-local-storage.min.js"></script>
     <script type="text/javascript" src="app.js"></script>
@@ -35,12 +35,12 @@
 
 <body style="display:flex; flex-flow: column;" ng-app="pointsOfInterest">
     <header style="order:1">
-        <img src="assets\images\littlest-point-OfInterest-logo.gif" class="logo" alt="logo">
+        <img src="assets\images\londonIcon.png" class="logo" alt="logo">
     </header>
     <div style="order:2" ng-controller="mainController as mainCtrl">
         <div class="menu" name="guestMenu" ng-show="$root.guest">
             <li class="li"><a class="btn_menu" href="#/">Home</a></li>
-            <li class="li"><a class="btn_menu" href="#/points">points</a></li>
+            <li class="li"><a class="btn_menu" href="#/points">Points</a></li>
             <li class="li"><a class="btn_menu" href="#/login">Login</a></li>
             <li class="li"><a class="btn_menu" href="#/register">Register</a></li>
             <li class="li"><a class="btn_menu" href="#/about">About</a></li>
@@ -50,7 +50,7 @@
             <li class="li"><a class="btn_menu" href="#/points">points</a></li>
             <li class="li">
                 <i class="fa fa-shopping-favorites ico" ></i>
-                <a class="btn_menu" href="#/favorites">My favorites</a>
+                <a class="btn_menu" href="#/favorites">My-Favorites</a>
             </li>
             <li class="li"><a class="btn_menu" ng-click="mainCtrl.logout()" style=" cursor: pointer;">Logout</a></li>
             <li class="li"><a class="btn_menu" href="#/about">About</a></li>

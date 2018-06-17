@@ -13,14 +13,13 @@ app.controller('favoritesController', ['$scope', '$http','localStorageService', 
             +' <label class="modalHeader">Description: </label> <label class="modalText"> {{ngDialogData.Description}}</label> <br/>'
             +' <label class="modalHeader">Amount in stock: </label> <label class="modalText"> {{ngDialogData.StockAmount}}</label> <br/>';
 
-            self.pointsOrder=[1,2];
+        self.pointsOrder=[1,2];
 
         self.remove = function (point) {
             let index = self.favorites.indexOf(point);
             self.favorites.splice(index,1);
             localStorageService.set($rootScope.UserName+'Points', self.favorites);
         };
-
 
 
         self.pointAmount = function(point){
