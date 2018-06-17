@@ -5,6 +5,7 @@
 app.factory('UserService', ['$http', 'localStorageService', '$filter', '$rootScope', '$location',
     function ($http, localStorageService, $filter, $rootScope, $location) {
         let service = {};
+        let top3Points={};
 
         service.initUser = function () {
             $rootScope.guest = true;
@@ -32,14 +33,14 @@ app.factory('UserService', ['$http', 'localStorageService', '$filter', '$rootSco
 
 
         service.getRandomPoints = function () {
-            if (!$rootScope.top3) {
+            //if (!$rootScope.top3) {
                 $http.get('point/RandomPoints/3')
                     .then(function (res) {
                         $rootScope.top3 = res.data;
                     }).catch(function (e) {
                         return Promise.reject(e);
                     });
-            }
+           // }
             if (!$rootScope.guest) {
                 if (!$rootScope.popular2) {
                     let user = localStorageService.get('user').UserName;
@@ -63,19 +64,6 @@ app.factory('UserService', ['$http', 'localStorageService', '$filter', '$rootSco
                             return Promise.reject(e);
                         });
                 }
-            }
-        };
-
-
-        service.getRecommendedProducts = function () {
-            if (!$rootScope.guest && !$rootScope.recommendedpoints) {
-                $http.get('/users/recommandation/' + $rootScope.UserName)
-                    .then(function (res) {
-                        $rootScope.recommendedpoints = res.data;
-                    })
-                    .catch(function (e) {
-                        return Promise.reject(e);
-                    });
             }
         };
 
@@ -112,6 +100,11 @@ app.factory('UserService', ['$http', 'localStorageService', '$filter', '$rootSco
         service.logout = function () {
             localStorageService.remove('user');
             $location.path("/");
+            $rootScope.latest2=null;
+            $rootScope.popular2=null;
+            $rootScope.guest=false;
+            localStorageService.remove($rootScope.UserName+'Points');
+
         };
         return service;
     }]);

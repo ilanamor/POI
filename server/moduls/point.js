@@ -25,7 +25,7 @@ router.get('/', function (req, res) {
 //works
 router.get('/details/:PointID', function (req, res) {
     var point = req.params.PointID;
-    DButilsAzure.execQuery("SELECT a.PointID, a.PointName, a.Pic, a.Rank, a.NumOfView, a.Description, b.Review FROM Point a JOIN (select TOP 2 PointID, Review from Reviews where PointID='"+point+"' order by Date DESC) as b on a.PointID=b.PointID")
+    DButilsAzure.execQuery("SELECT a.PointID, a.PointName, a.Pic, a.Rank, a.NumOfView, a.Description, b.Review FROM Point a LEFT JOIN (select TOP 2 PointID, Review from Reviews where PointID='"+point+"' order by Date DESC) as b on a.PointID=b.PointID where a.PointID='"+point+"'")
         .then(function (result) {
             res.send(result);
         }).catch(function (err) { res.status(400).send(err); });
@@ -64,7 +64,6 @@ router.get('/RandomPoints/:Rank', function (req, res) {
             res.send(result);
         }).catch(function (err) { res.status(400).send(err); });
 });
-
 
 
 module.exports = router;

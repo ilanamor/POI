@@ -1,6 +1,6 @@
 'use strict';
 //-------------------------------------------------------------------------------------------------------------------
-app.controller('productsController', ['$scope', '$http', 'localStorageService', '$rootScope', 'UserService', 'favoritesService', 'ngDialog',
+app.controller('homeController', ['$scope', '$http', 'localStorageService', '$rootScope', 'UserService', 'favoritesService', 'ngDialog',
     function ($scope, $http, localStorageService, $rootScope, UserService, favoritesService, ngDialog) {
         let self = this;
         self.selectedPoint = null;
@@ -22,11 +22,14 @@ app.controller('productsController', ['$scope', '$http', 'localStorageService', 
 
         self.open = function (point) {
             self.selectedPoint = point;
-
+            $http.put('point/upViews/' + self.selectedPoint.PointID)
+            .catch(function (e) {
+                return Promise.reject(e);
+            });
             $http.get('point/details/' + self.selectedPoint.PointID)
                 .then(function (res) {
                     let pointDetails = res.data[0];
-                    if (res.data.length === 2) {
+                    if (res.data.length >= 2) {
                         pointDetails.Review2 = res.data[1].Review;
                     }
                     ngDialog.open({
@@ -37,10 +40,6 @@ app.controller('productsController', ['$scope', '$http', 'localStorageService', 
                         width: 640
                     });
                 })
-                .catch(function (e) {
-                    return Promise.reject(e);
-                });
-            $http.put('point/upViews/' + self.selectedPoint.PointID)
                 .catch(function (e) {
                     return Promise.reject(e);
                 });
