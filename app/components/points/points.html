@@ -25,6 +25,8 @@
             <div class="description">
                 <label class="header_description" ng-click="pointCtrl.open(p)"> {{p.PointName}}</label>
                 </br>
+                <img ng-src="assets\images\Fheart.png" class="img_heart" ng-hide="!p.inFav" ng-click="pointCtrl.favorites(p)"/>
+                <img ng-src="assets\images\Eheart.png" class="img_heart" ng-hide="p.inFav" ng-click="pointCtrl.favorites(p)"/>
                 <label class="content_description">{{p.Description}}</label>
             </div >
             <div class="">

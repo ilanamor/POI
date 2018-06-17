@@ -54,9 +54,17 @@ app.controller('pointsController', ['$scope', '$http','localStorageService','Use
             self.orderBy ="";
         };
 
-        self.addTofavorites = function (point) {
-            favoritesService.addTofavorites(point);
+        self.favorites = function (point) {
+            if(point.inFav===true){
+                point.inFav=false;
+                favoritesService.remove(point); 
+            } 
+            else{
+                point.inFav=true;
+                favoritesService.addTofavorites(point); 
+            }          
         }
+
 
         self.open = function (point) {
             self.selectedPoint = point;
