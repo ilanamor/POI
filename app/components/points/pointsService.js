@@ -4,17 +4,6 @@ app.factory('pointsService', ['$http', 'localStorageService', '$filter', '$rootS
         let service = {};
         service.points = [];
 
-      /*  service.getRecommendedProducts = function(){
-             return $http.get('/users/recommandation/logged/' + $rootScope.UserName)
-                    .then(function (res) {
-                        $rootScope.recommendedpoints = res.data;
-                        Promise.resolve(res.data);
-                    })
-                    .catch(function (e) {
-                        return Promise.reject(e);
-                    });
-        };*/
-
         service.allpoints = function(){
             return $http.get('/point/')
                 .then(function (res) {
@@ -26,7 +15,6 @@ app.factory('pointsService', ['$http', 'localStorageService', '$filter', '$rootS
                     return Promise.reject(e);
                 });
         };
-
 
         return service;
     }]);

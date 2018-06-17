@@ -47,10 +47,10 @@
         </div>
         <div class="menu" name="registeredUserMenu" ng-hide="$root.guest">
             <li class="li"><a class="btn_menu" href="#/">Home</a></li>
-            <li class="li"><a class="btn_menu" href="#/points">points</a></li>
+            <li class="li"><a class="btn_menu" href="#/points">Points</a></li>
             <li class="li">
                 <i class="fa fa-shopping-favorites ico" ></i>
-                <a class="btn_menu" href="#/favorites">My-Favorites</a>
+                <a class="btn_menu" href="#/favorites">Favorites</a>
             </li>
             <li class="li"><a class="btn_menu" ng-click="mainCtrl.logout()" style=" cursor: pointer;">Logout</a></li>
             <li class="li"><a class="btn_menu" href="#/about">About</a></li>
@@ -61,7 +61,6 @@
         </div>
         <div ng-hide="$root.guest">
             <label class="welcomeUser">Hello {{$root.UserName}},</label>
-            <label class="welcomeUser">Your last login was in: {{$root.LastLogin | date : "medium"}}</label>
         </div>
         <div ng-view style="order:3"> </div>
     </div>
@@ -69,7 +68,7 @@
     <br>
     <footer style="order:3">
         <br>
-        • • • This site was made by Maayan Elgamil and Keren Potash • • •
+        • • • This site was made by Ilana Mordechai and Karin Mishor • • •
     </footer>
 </body>
 </html>

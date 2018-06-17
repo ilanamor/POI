@@ -121,8 +121,12 @@
 }
 
 .header_description {
-    font-size: 1.1em;
+    font-size: 1.0em;
     font-weight: bold;
+}
+
+.header_description:hover {
+    text-decoration: underline;
 }
 
 .content_description{

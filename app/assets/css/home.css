@@ -100,7 +100,15 @@ body{
 
 .container {
     position: relative;
-    width: 70%;
+    width: 12em;
+    height: 15.5em;
+    margin-right: 0.5em;
+    margin-left: 0.5em;
+    color: #101010;
+    font-size: 16px;
+    padding: 0.2em 0.2em;
+    display: inline-grid;
+    margin-bottom: 0.5em;
 }
 
 footer {
