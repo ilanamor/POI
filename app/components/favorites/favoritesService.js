@@ -1,6 +1,7 @@
 
 
-app.factory('favoritesService', ['$http', 'localStorageService', '$filter', '$rootScope',
+angular.module("pointsOfInterest")
+.service('favoritesService', ['$http', 'localStorageService', '$filter', '$rootScope',
     function($http, localStorageService, $filter, $rootScope) {
 
         let service = {};

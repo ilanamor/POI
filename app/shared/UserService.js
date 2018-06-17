@@ -1,8 +1,7 @@
-/**
- * Created by Maayan on 8/3/2017.
- */
+
 //-------------------------------------------------------------------------------------------------------------------
-app.factory('UserService', ['$http', 'localStorageService', '$filter', '$rootScope', '$location',
+angular.module("pointsOfInterest")
+.service('UserService', ['$http', 'localStorageService', '$filter', '$rootScope', '$location',
     function ($http, localStorageService, $filter, $rootScope, $location) {
         let service = {};
         let top3Points={};
@@ -10,12 +9,10 @@ app.factory('UserService', ['$http', 'localStorageService', '$filter', '$rootSco
         service.initUser = function () {
             $rootScope.guest = true;
             $rootScope.UserName = '';
-            //$rootScope.LastLogin = '';
             if (localStorageService.isSupported) {
                 let user = localStorageService.get('user');
                 if (user) {
                     $rootScope.UserName = user.UserName; // extract cookie data
-                    //$rootScope.LastLogin = user.Date;
 
                     $http.defaults.headers.common = {                  //use the token for the user requets
                         'token': user.token,

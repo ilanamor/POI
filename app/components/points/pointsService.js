@@ -1,5 +1,6 @@
 
-app.factory('pointsService', ['$http', 'localStorageService', '$filter', '$rootScope',
+angular.module("pointsOfInterest")
+.service('pointsService', ['$http', 'localStorageService', '$filter', '$rootScope',
     function($http, localStorageService, $filter, $rootScope) {
         let service = {};
         service.points = [];

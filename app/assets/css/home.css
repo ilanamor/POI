@@ -180,8 +180,14 @@ footer {
     text-decoration: none;
     font-weight: bold;
 }
+
 .addTofavorites_button:hover {
     background-color: #ffc1c6;
+}
+
+addTofavorites_button.selected {
+    color: white;
+    background:green
 }
 
 .modalImg
