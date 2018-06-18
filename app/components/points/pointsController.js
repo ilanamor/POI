@@ -19,7 +19,7 @@ app.controller('pointsController', ['$scope', '$http', 'localStorageService', 'U
 
         let html = '<img ng-src="{{ngDialogData.Pic}}" class="modalImg"/> <br/> '
             + ' <label class="modalHeader">Name:</label> <label class="modalText">{{ngDialogData.PointName}}</label>  <br/>  '
-            + ' <label class="modalHeader">Rank: </label> <label class="modalText"> {{ngDialogData.Rank}} </label>  <br/>'
+            + ' <label class="modalHeader">Rank: </label> <label class="modalText"> {{ngDialogData.Rank}}% </label>  <br/>'
             + ' <label class="modalHeader">Num of views: </label> <label class="modalText">{{ngDialogData.NumOfView}}</label> <br/>'
             + ' <label class="modalHeader">Description: </label> <label class="modalText"> {{ngDialogData.Description}}</label> <br/>'
             + ' <label class="modalHeader">Review-1: </label> <label class="modalText"> "{{ngDialogData.Review}}"</label> <br/>'
@@ -106,6 +106,7 @@ app.controller('pointsController', ['$scope', '$http', 'localStorageService', 'U
                     if (res.data.length >= 2) {
                         pointDetails.Review2 = res.data[1].Review;
                     }
+                    pointDetails["Rank"]=pointDetails["Rank"]*20;
                     ngDialog.open({
                         template: html,
                         className: 'ngdialog-theme-default',

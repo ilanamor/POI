@@ -32,6 +32,7 @@ app.controller('homeController', ['$scope', '$http', 'localStorageService', '$ro
                     if (res.data.length >= 2) {
                         pointDetails.Review2 = res.data[1].Review;
                     }
+                    pointDetails["Rank"]=pointDetails["Rank"]*20;
                     ngDialog.open({
                         template: html,
                         className: 'ngdialog-theme-default',
