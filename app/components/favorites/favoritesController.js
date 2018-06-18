@@ -56,11 +56,29 @@ app.controller('favoritesController', ['$scope', '$http','localStorageService', 
         // self.reverseSort = false;
 
      
-         favoritesService.allpoints()
+        favoritesService.allpoints()
              .then(function(){
                  self.points = favoritesService.points; // now all the points are save in pointservice.points !
 
             });
+
+        self.favorites = function (point) {
+
+                    if (point.inFav === true) {
+                        point.inFav = false;
+                        favoritesService.removeFromfavorites(point);
+                    }
+                    else {
+                        point.inFav = true;
+                        favoritesService.addTofavorites(point);
+                    }
+                    favoritesService.allpoints()
+             .then(function(){
+                 self.points = favoritesService.points; // now all the points are save in pointservice.points !
+
+            });
+
+        }
 
         // $http.get('point/allCategories') // get categories
         //     .then(function (res) {
