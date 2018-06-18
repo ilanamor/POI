@@ -12,7 +12,7 @@ angular.module("pointsOfInterest")
             //need to show only those who is not in the removed
             service.allpoints = function () {
                 let token = localStorageService.get('user').token;
-                return $http.get('reg/user/' + $rootScope.UserName, { headers: { 'x-access-token': token } })
+                return $http.get('reg/user/' + $rootScope.UserName)
                     .then(function (res) {
                         Promise.resolve(res.data);
                         service.points = res.data;

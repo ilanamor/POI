@@ -4,7 +4,6 @@ angular.module("pointsOfInterest")
     .service('UserService', ['$http', 'localStorageService', '$filter', '$rootScope', '$location',
         function ($http, localStorageService, $filter, $rootScope, $location) {
             let service = {};
-            let top3Points = {};
 
             service.initUser = function () {
                 $rootScope.guest = true;
@@ -14,11 +13,7 @@ angular.module("pointsOfInterest")
                     if (user) {
                         $rootScope.UserName = user.UserName; // extract cookie data
 
-                        $http.defaults.headers.common = {                  //use the token for the user requets
-                            'token': user.token,
-                            'user': user.UserName
-                        };
-
+                        $http.defaults.headers.common[ 'x-access-token' ]=user.token;
                         $rootScope.guest = false;                 //update that this is not a guest
 
                         //update the userObject
@@ -39,8 +34,8 @@ angular.module("pointsOfInterest")
                 if (!$rootScope.guest) {
                     if (!$rootScope.popular2) {
                         let user = localStorageService.get('user').UserName;
-                        let token = localStorageService.get('user').token;
-                        $http.get('reg/user/twoPopularPoints/' + user, { headers: { 'x-access-token': token } })
+                        //let token = localStorageService.get('user').token;
+                        $http.get('reg/user/twoPopularPoints/' + user)
                             .then(function (res) {
                                 $rootScope.popular2 = res.data;
                             })
@@ -50,8 +45,8 @@ angular.module("pointsOfInterest")
                     }
                     if (!$rootScope.latest2) {
                         let user = localStorageService.get('user').UserName;
-                        let token = localStorageService.get('user').token;
-                        $http.get('reg/user/twoLastPoints/' + user, { headers: { 'x-access-token': token } })
+                        //let token = localStorageService.get('user').token;
+                        $http.get('reg/user/twoLastPoints/' + user)
                             .then(function (res) {
                                 $rootScope.latest2 = res.data;
                             })

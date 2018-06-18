@@ -18,12 +18,19 @@ app.controller('pointsController', ['$scope', '$http', 'localStorageService', 'U
 
 
         let html = '<img ng-src="{{ngDialogData.Pic}}" class="modalImg"/> <br/> '
-            + ' <label class="modalHeader">Name:</label> <label class="modalText">{{ngDialogData.PointName}}</label>  <br/>  '
-            + ' <label class="modalHeader">Rank: </label> <label class="modalText"> {{ngDialogData.Rank}}% </label>  <br/>'
+            + ' <label class="modalHeader">Name:</label> <label class="modalText">{{ngDialogData.PointName}}</label> <br/>  '
+            + ' <label class="modalHeader">Rank: </label> <label class="modalText"> {{ngDialogData.Rank}}% </label> <br/>'
             + ' <label class="modalHeader">Num of views: </label> <label class="modalText">{{ngDialogData.NumOfView}}</label> <br/>'
             + ' <label class="modalHeader">Description: </label> <label class="modalText"> {{ngDialogData.Description}}</label> <br/>'
             + ' <label class="modalHeader">Review-1: </label> <label class="modalText"> "{{ngDialogData.Review}}"</label> <br/>'
             + ' <label class="modalHeader">Review-2: </label> <label class="modalText"> "{{ngDialogData.Review2}}"</label> <br/>';
+
+        let htmlReview = '<div ng-controller="pointsController  as pointCtrl">'
+            + '<img ng-src="{{ngDialogData.Pic}}" class="modalImg"/> <br/> '
+            + ' <label class="modalHeader">Name:</label> <label class="modalText">{{ngDialogData.PointName}}</label> <br/> <br/>  '
+            + ' <label class="modalHeader">Rank: </label> <input type="text" class="form-control logInput" name="rankInput" placeholder="Enter your Rank"> <br/> <br/> '
+            + ' <label class="modalHeader">Review: </label> <input type="text" class="form-control logInput" name="reviewInput" placeholder="Enter your Review"> <br/> <br/> ' 
+            + ' <button class="description_button" ng-click="pointCtrl.saveRank(ngDialogData,rankInput,reviewInput)"> Add </button> <br/> </div>' ;
 
         pointsService.allpoints()
             .then(function () {
@@ -106,7 +113,7 @@ app.controller('pointsController', ['$scope', '$http', 'localStorageService', 'U
                     if (res.data.length >= 2) {
                         pointDetails.Review2 = res.data[1].Review;
                     }
-                    pointDetails["Rank"]=pointDetails["Rank"]*20;
+                    pointDetails["Rank"] = pointDetails["Rank"] * 20;
                     ngDialog.open({
                         template: html,
                         className: 'ngdialog-theme-default',
@@ -120,5 +127,28 @@ app.controller('pointsController', ['$scope', '$http', 'localStorageService', 'U
                 });
 
         };
+
+        self.openRank = function (point) {
+            ngDialog.open({
+                template: htmlReview,
+                className: 'ngdialog-theme-default',
+                data: point,
+                showClose: true,
+                width: 640
+            })
+        };
+
+        self.saveRank = function (point,rankInput,reviewInput) {
+            let x;
+            $http.post('/addReviewToPoint')
+                .catch(function (e) {
+                    return Promise.reject(e);
+                });
+            $http.post('/addRankToPoint')
+                .catch(function (e) {
+                    return Promise.reject(e);
+                });
+        };
+
 
     }]);
