@@ -14,14 +14,45 @@ app.controller('favoritesController', ['$scope', '$http', 'localStorageService',
             + ' <label class="modalHeader">Review-1: </label> <label class="modalText"> "{{ngDialogData.Review}}"</label> <br/>'
             + ' <label class="modalHeader">Review-2: </label> <label class="modalText"> "{{ngDialogData.Review2}}"</label> <br/>';
 
-        self.pointsOrder = [1, 2, 3];
+      //  self.pointsOrder = "18,10";
 
 
         self.enterOrder = function () {
-            $http.put('user/updateFavOrder' + $rootScope.UserName.UserName + self.favorites + self.pointsOrder).then(function (res) {
+            if( favoritesService.LocalRemoved!=null){
+            for (let i = 0; i < favoritesService.LocalRemoved.length; i++) {
+                for (let j = 0; j < self.points.length; j++) {
+                    if(favoritesService.LocalRemoved[i].PointID===self.points[j].PointID){
+                        let p = self.points[j];
+                        $http.delete('reg/user/deleteFromFavorite', { UserName:$rootScope.UserName  ,PointID: p.PointID}).catch(function (e) {
+                            return Promise.reject(e);
+                        });
+                    }
+                }
+                }
+            }
+
+           let favToAdd=localStorageService.get($rootScope.UserName + 'Points');
+                if(favToAdd!=null){
+                for (let i = 0; i < favToAdd.length; i++) {
+                    for (let j = 0; j < self.points.length; j++) {
+                        if(favToAdd[i].PointID===self.points[j].PointID){
+                            let p = self.points[j];
+                            $http.post('reg/user/addToFavorite', { UserName:$rootScope.UserName  ,PointID: p.PointID, OrderNum: p.OrderNum}).catch(function (e) {
+                             return Promise.reject(e);
+                         });
+                        }
+                    }
+                   
+                    }
+                }
+                    let pointAndOrders="";
+                 for (let i = 0; i < self.points.length; i++) {
+                     pointAndOrders =pointAndOrders+ self.points[i].PointID+','+self.points[i].OrderNum+',';
+                 }
+            $http.put('reg/user/updateFavOrder', { UserName:$rootScope.UserName  ,pointsOrder: pointAndOrders}).then(function (res) {
                 alert('Favorite`s Order Save Succesfuly!');
             });
-
+       //need to clean l.s after delete and 
         };
 
         favoritesService.allpoints()

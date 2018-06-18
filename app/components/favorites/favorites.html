@@ -13,7 +13,7 @@
                 <tr>
                     <td class="header_description" style="width: 8em">Set Number of favorite:</td>
                     <td style="width: 8em">
-                        <input type="number" ng-model="p.OrderNum" g-change="favCtrl.pointAmount(p)" min="-2" max="20" class="favorites_text">
+                        <input type="number" ng-model="p.OrderNum" ng-change="p.NewOrderNum" min="-2" max="20" class="favorites_text" >
                     </td>
                 </tr>
                 <tr>
@@ -48,4 +48,4 @@
     <div ng-show="favCtrl.favorites.length">
         <label class="amount">Click For Save Changes!</label>
         <br/>
-        <button class="pay_button" ng-click="favCtrl.enterOrder()">Save Favorite`s Order</button>
+        <button class="save_button" ng-click="favCtrl.enterOrder()">Save Favorite`s Order</button>
