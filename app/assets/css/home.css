@@ -160,10 +160,11 @@ footer {
 .welcomeUser{
     display: block;
     margin: 0;
-    font-size: 1em;
+    font-size: 2em;
     font-family: 'Acme', sans-serif;
     text-align: center;
     position: static;
+    color: #ffffff;
 }
 
 .addTofavorites_button {

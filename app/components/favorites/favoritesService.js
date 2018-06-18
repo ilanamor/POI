@@ -62,10 +62,10 @@ angular.module("pointsOfInterest")
 
             //add to local storage
             service.addTofavorites = function (point) {
-                if ($rootScope.guest) {
-                    alert('If you want to add a point please log in first!');
-                }
-                else {
+                // if ($rootScope.guest) {
+                //     alert('If you want to add a point please log in first!');
+                // }
+                // else {
                     if (!service.serverPoints[point.PointID]) {
                         let valueStored = localStorageService.get($rootScope.UserName + 'Points');
                         if (!valueStored) { // first point in the favorites
@@ -101,15 +101,15 @@ angular.module("pointsOfInterest")
                         }
                         alert('point was added successfully');
                     }
-                }
+              //  }
             };
 
             //delete from local sorage
             service.removeFromfavorites = function (point) {
-                if ($rootScope.guest) {
-                    alert('If you want to add a point please log in first!');
-                }
-                else {
+                // if ($rootScope.guest) {
+                //     alert('If you want to add a point please log in first!');
+                // }
+                // else {
                     if (service.serverPoints[point.PointID]) {
                         let valueStored = localStorageService.get($rootScope.UserName + 'Removed');
                         if (!valueStored) { // first point in the removed
@@ -144,7 +144,7 @@ angular.module("pointsOfInterest")
                         alert('point was removed successfully');
                     }
                 }
-            };
+            //};
 
             return service;
         }]);
