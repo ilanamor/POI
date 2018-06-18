@@ -204,3 +204,22 @@
     -moz-box-shadow: inset 10px 10px 50px #fff;
     box-shadow: 0 1px 50px 20px #fff;
 }
+
+.recommended{
+    margin: 4px;
+    padding: 5px;
+    border: 1px solid white;
+    border-radius: 7pt;
+    background-color: rgba(247, 225, 225, 0.78);
+    flex: 1 6 20%;
+    order: 3;
+}
+
+.recommended_text{
+    color: white;
+    font-family: Courgette, sans-serif;
+    font-size: 2em;
+    display: block;
+    text-align: center;
+    padding-top: 7.4em;
+}
