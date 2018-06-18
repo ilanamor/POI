@@ -5,15 +5,10 @@
 
     <div class="POI">
         <span ng-show="favCtrl.points.length" ng-repeat="p in favCtrl.points" class="product_description">
-            <img ng-src="{{p.Pic}}" class="img_product" />
+            <img ng-src="{{p.Pic}}" class="img_product" ng-click="favCtrl.open(p)"/>
             <table>
                 <tr>
                     <td class="header_description" style=" width: 8em; height: 2.4em;">{{p.PointName}}</td>
-                    <td class="price" style="width: 8em; float: nones"> {{p.Description}} </td>
-                </tr>
-                <tr>
-                    <!-- <td  class="header_description" style="width: 8em">Rank:</td> -->
-                    <!-- <td class="favorites_text" style="width: 8em" >{{p.Rank}}</td> -->
                 </tr>
                 <tr>
                     <td class="header_description" style="width: 8em">Set Number of favorite:</td>

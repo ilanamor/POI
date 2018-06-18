@@ -26,16 +26,6 @@
     align-items: center;
 }
 
-.recommended{
-    margin: 4px;
-    padding: 5px;
-    border: 1px solid white;
-    border-radius: 7pt;
-    background-color: rgba(247, 225, 225, 0.78);
-    flex: 1 6 20%;
-    order: 3;
-}
-
 .recHeader{
     font-family: 'Acme', sans-serif;
     display: block;
@@ -116,6 +106,12 @@
     height: 13em;
 }
 
+.img_product:hover{
+    width: 15em;
+    height: 13em;
+    opacity: 0.3;
+}
+
 .product_description{
     width: 15em;
     height: 21.5em;
@@ -138,10 +134,6 @@
 .header_description {
     font-size: 1.0em;
     font-weight: bold;
-}
-
-.header_description:hover {
-    text-decoration: underline;
 }
 
 .content_description{
@@ -201,14 +193,7 @@
     margin-top: 0.5em;
     width: 10em;
 }
-.recommended_text{
-    color: white;
-    font-family: Courgette, sans-serif;
-    font-size: 2em;
-    display: block;
-    text-align: center;
-    padding-top: 7.4em;
-}
+
 .rcmnd_gif{
     width: 10em;
     height: 9em;

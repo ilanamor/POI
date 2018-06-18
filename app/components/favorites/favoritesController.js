@@ -1,83 +1,48 @@
 
 'use strict';
 //-------------------------------------------------------------------------------------------------------------------
-app.controller('favoritesController', ['$scope', '$http','localStorageService', '$rootScope', 'ngDialog','favoritesService','pointsService',
-    function($scope, $http, localStorageService, $rootScope, ngDialog, favoritesService) {
+app.controller('favoritesController', ['$scope', '$http', 'localStorageService', '$rootScope', 'ngDialog', 'favoritesService',
+    function ($scope, $http, localStorageService, $rootScope, ngDialog, favoritesService) {
         let self = this;
-     //   self.Localfavorites = localStorageService.get($rootScope.UserName+'Points');
+        self.selectedPoint = null;
 
-        let html = '<img ng-src="{{ngDialogData.ImagePath}}" class="modalImg"/> <br/> '
-            +' <label class="modalHeader">Name:</label> <label class="modalText">{{ngDialogData.pointName}}</label>  <br/>  '
-            +' <label class="modalHeader">Price: </label> <label class="modalText"> {{ngDialogData.price}} $ </label>  <br/>'
-            +' <label class="modalHeader">Category: </label> <label class="modalText">{{ngDialogData.Category}}</label> <br/>'
-            +' <label class="modalHeader">Description: </label> <label class="modalText"> {{ngDialogData.Description}}</label> <br/>'
-            +' <label class="modalHeader">Amount in stock: </label> <label class="modalText"> {{ngDialogData.StockAmount}}</label> <br/>';
+        let html = '<img ng-src="{{ngDialogData.Pic}}" class="modalImg"/> <br/> '
+            + ' <label class="modalHeader">Name:</label> <label class="modalText">{{ngDialogData.PointName}}</label>  <br/>  '
+            + ' <label class="modalHeader">Rank: </label> <label class="modalText"> {{ngDialogData.Rank}}% </label>  <br/>'
+            + ' <label class="modalHeader">Num of views: </label> <label class="modalText">{{ngDialogData.NumOfView}}</label> <br/>'
+            + ' <label class="modalHeader">Description: </label> <label class="modalText"> {{ngDialogData.Description}}</label> <br/>'
+            + ' <label class="modalHeader">Review-1: </label> <label class="modalText"> "{{ngDialogData.Review}}"</label> <br/>'
+            + ' <label class="modalHeader">Review-2: </label> <label class="modalText"> "{{ngDialogData.Review2}}"</label> <br/>';
 
-        self.pointsOrder=[1,2,3];
-
-        self.remove = function (point) {
-            let index = self.favorites.indexOf(point);
-            self.favorites.splice(index,1);
-            localStorageService.set($rootScope.UserName+'Points', self.favorites);
-        };
-
-       /* self.favorite = function(){ 
-        for (var i = 0, len = Localfavorites.length; i < len; i++) { 
-            self.favorites.push(Localfavorites[i]);
-        }
-    };
-     */
-
-        self.pointAmount = function(point){
-            if(!point.Amount){
-                point.Amount = 1;
-            }else if (point.Amount > point.StockAmount){
-                point.Amount = point.StockAmount;
-            }
-            localStorageService.set($rootScope.UserName, self.favorites);
-        };
+        self.pointsOrder = [1, 2, 3];
 
 
-    self.enterOrder = function () {
-            $http.put('user/updateFavOrder'+$rootScope.UserName.UserName +self.favorites+ self.pointsOrder ).then(function (res) {
+        self.enterOrder = function () {
+            $http.put('user/updateFavOrder' + $rootScope.UserName.UserName + self.favorites + self.pointsOrder).then(function (res) {
                 alert('Favorite`s Order Save Succesfuly!');
             });
-           
-        };
-    
-        
-        // self.categoryHeader = "All points";
-        // self.showAll = true;
-        // self.sortedOptions =[ { name:'point name', label:'PointName', reverse:false},
-        //                       { name:'Price - low to high', label:'price', reverse:false},
-        //                       { name:'Price - high to low', label:'price', reverse:true}];
-        // self.filterBy = "";
-        // self.orderBy = "";
-        // self.reverseSort = false;
 
-     
+        };
+
         favoritesService.allpoints()
-             .then(function(){
-                 self.points = favoritesService.points; // now all the points are save in pointservice.points !
+            .then(function () {
+                self.points = favoritesService.points; // now all the points are save in pointservice.points !
 
             });
 
         self.favorites = function (point) {
-
-                    if (point.inFav === true) {
-                        point.inFav = false;
-                        favoritesService.removeFromfavorites(point);
-                    }
-                    else {
-                        point.inFav = true;
-                        favoritesService.addTofavorites(point);
-                    }
-                    favoritesService.allpoints()
-             .then(function(){
-                 self.points = favoritesService.points; // now all the points are save in pointservice.points !
-
-            });
-
+            if (point.inFav === true) {
+                point.inFav = false;
+                favoritesService.removeFromfavorites(point);
+            }
+            else {
+                point.inFav = true;
+                favoritesService.addTofavorites(point);
+            }
+            favoritesService.allpoints()
+                .then(function () {
+                    self.points = favoritesService.points; // now all the points are save in pointservice.points !
+                });
         }
 
         // $http.get('point/allCategories') // get categories
@@ -103,13 +68,30 @@ app.controller('favoritesController', ['$scope', '$http','localStorageService', 
         //     self.pointsToShow = favoritesService.points;
         //     self.orderBy ="";
         // };
-        self.open = function(point) {
-            favoritesService.selectedpoint = point;
-            ngDialog.open({ template:html,
-                            className: 'ngdialog-theme-default',
-                            data: favoritesService.selectedpoint,
-                            showClose: true,
-                            width: 640
-            });
+
+        self.open = function (point) {
+            self.selectedPoint = point;
+            $http.put('point/upViews/' + self.selectedPoint.PointID)
+                .catch(function (e) {
+                    return Promise.reject(e);
+                });
+            $http.get('point/details/' + self.selectedPoint.PointID)
+                .then(function (res) {
+                    let pointDetails = res.data[0];
+                    if (res.data.length >= 2) {
+                        pointDetails.Review2 = res.data[1].Review;
+                    }
+                    pointDetails["Rank"]=pointDetails["Rank"]*20;
+                    ngDialog.open({
+                        template: html,
+                        className: 'ngdialog-theme-default',
+                        data: pointDetails,
+                        showClose: true,
+                        width: 640
+                    });
+                })
+                .catch(function (e) {
+                    return Promise.reject(e);
+                });
         };
     }]);

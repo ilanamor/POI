@@ -20,34 +20,13 @@
         </div>
         <div ng-repeat="p in pointCtrl.points | filter : pointCtrl.filterBy|
                             orderBy:pointCtrl.orderBy.label:pointCtrl.orderBy.reverse" class="product_description" >
-                <img ng-src="{{p.Pic}}" class="img_product"/>
+                <img ng-src="{{p.Pic}}" class="img_product" ng-click="pointCtrl.open(p)"/>
             <div class="description">
-                <label class="header_description" ng-click="pointCtrl.open(p)"> {{p.PointName}}</label>
+                <label class="header_description"> {{p.PointName}}</label>
                 </br>
                 <img ng-src="assets\images\Fheart.png" class="img_heart" ng-hide="!p.inFav" ng-click="pointCtrl.favorites(p)"/>
                 <img ng-src="assets\images\Eheart.png" class="img_heart" ng-hide="p.inFav" ng-click="pointCtrl.favorites(p)"/>
             </div >
         </div>
-    </div>
-    <div class="recommended"  >
-        <!-- <div ng-hide="$root.guest">
-            <h1 class="recHeader">Recommended <br> for &nbsp; you</h1>
-            <span ng-repeat="p in $root.recommendedpoints" class="container" >
-                <img ng-src="{{p.Pic}}" class="imgTop3 image" style="margin-left: 3.05em"/>
-                <div class="middle" style="z-index: 1">
-                     <div class="text">
-                        <h1 class="headerText"> {{p.pointName}}</h1>
-                                                {{p.Description}}
-                        <br>
-                        <h1 class="headerText"> {{p.price}}  </h1>
-                         <button class="addTofavorites_button" ng-click="pointCtrl.addTofavorites(p)">add to favorites</button>
-                     </div>
-                </div>
-             </span>
-        </div>
-        <div  ng-show="$root.guest">
-            <label class="recommended_text"> Please login to see the Recommended points for you</label>
-            <img class="rcmnd_gif" src="assets\images\lovely.gif" />
-        </div> -->
     </div>
 </div>
