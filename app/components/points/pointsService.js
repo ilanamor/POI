@@ -11,9 +11,9 @@ angular.module("pointsOfInterest")
                     $rootScope.allpoints = res.data;
                     Promise.resolve(res.data);
                     service.points = res.data;
-                    for(let i=0; i<service.points.length;i++){
-                        service.points[i].inFav=false;
-                    }
+                    // for(let i=0; i<service.points.length;i++){
+                    //     service.points[i].inFav=false;
+                    // }
                 })
                 .catch(function (e) {
                     return Promise.reject(e);

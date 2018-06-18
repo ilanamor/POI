@@ -101,6 +101,7 @@ angular.module("pointsOfInterest")
             $rootScope.popular2=null;
             $rootScope.guest=false;
             localStorageService.remove($rootScope.UserName+'Points');
+            localStorageService.remove($rootScope.UserName+'Removed');
 
         };
         return service;
