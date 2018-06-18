@@ -28,9 +28,9 @@ app.controller('pointsController', ['$scope', '$http', 'localStorageService', 'U
         let htmlReview = '<div ng-controller="pointsController  as pointCtrl">'
             + '<img ng-src="{{ngDialogData.Pic}}" class="modalImg"/> <br/> '
             + ' <label class="modalHeader">Name:</label> <label class="modalText">{{ngDialogData.PointName}}</label> <br/> <br/>  '
-            + ' <label class="modalHeader">Rank: </label> <input type="text" class="form-control logInput" name="rankInput" placeholder="Enter your Rank"> <br/> <br/> '
-            + ' <label class="modalHeader">Review: </label> <input type="text" class="form-control logInput" name="reviewInput" placeholder="Enter your Review"> <br/> <br/> ' 
-            + ' <button class="description_button" ng-click="pointCtrl.saveRank(ngDialogData,rankInput,reviewInput)"> Add </button> <br/> </div>' ;
+            + ' <label class="modalHeader">Rank: </label> <input type="number" class="form-control logInput" name="rankInput" ng-model="ngDialogData.rankInput" placeholder="Enter your Rank"> <br/> <br/> '
+            + ' <label class="modalHeader">Review: </label> <input type="text" class="form-control logInput" name="reviewInput" ng-model="ngDialogData.reviewInput" placeholder="Enter your Review"> <br/> <br/> ' 
+            + ' <button class="description_button" ng-click="pointCtrl.saveRank(ngDialogData)"> Add </button> <br/> </div>' ;
 
         pointsService.allpoints()
             .then(function () {
@@ -138,16 +138,24 @@ app.controller('pointsController', ['$scope', '$http', 'localStorageService', 'U
             })
         };
 
-        self.saveRank = function (point,rankInput,reviewInput) {
-            let x;
-            $http.post('/addReviewToPoint')
+        self.saveRank = function (point) {
+            if(!(point.rankInput===null && point.reviewInput==='')){
+            $http.post('reg/user/addRankToPoint',{PointID:point.PointID,Rank:point.rankInput,UserName:$rootScope.UserName})
                 .catch(function (e) {
                     return Promise.reject(e);
                 });
-            $http.post('/addRankToPoint')
+            $http.post('reg/user/addReviewToPoint',{PointID:point.PointID,Review:point.reviewInput,UserName:$rootScope.UserName})
                 .catch(function (e) {
                     return Promise.reject(e);
                 });
+            point.rankInput=null;
+            point.reviewInput='';
+            alert('Rank & Review Saved Succesfuly!');
+            }
+            else{
+                alert('Please enter Rank / Review');
+            }
+
         };
 
 

@@ -16,3 +16,15 @@
     border: 5px solid white;
     text-align: center;
 }
+
+.imgAbout{
+    width: 30em;
+    height: 15em;
+    border: 0.5em solid white;
+    margin-right: 0.05em;
+    margin-left:0.05em;
+    border-radius: 0.2em;
+    opacity: 1;
+    transition: .5s ease;
+    backface-visibility: hidden;
+}
