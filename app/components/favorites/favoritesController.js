@@ -14,49 +14,56 @@ app.controller('favoritesController', ['$scope', '$http', 'localStorageService',
             + ' <label class="modalHeader">Review-1: </label> <label class="modalText"> "{{ngDialogData.Review}}"</label> <br/>'
             + ' <label class="modalHeader">Review-2: </label> <label class="modalText"> "{{ngDialogData.Review2}}"</label> <br/>';
 
-      //  self.pointsOrder = "18,10";
+        let htmlReview = '<div ng-controller="pointsController  as pointCtrl">'
+            + '<img ng-src="{{ngDialogData.Pic}}" class="modalImg"/> <br/> '
+            + ' <label class="modalHeader">Name:</label> <label class="modalText">{{ngDialogData.PointName}}</label> <br/> <br/>  '
+            + ' <label class="modalHeader">Rank: </label> <input type="number" class="form-control logInput" name="rankInput" ng-model="ngDialogData.rankInput" placeholder="Enter your Rank"> <br/> <br/> '
+            + ' <label class="modalHeader">Review: </label> <input type="text" class="form-control logInput" name="reviewInput" ng-model="ngDialogData.reviewInput" placeholder="Enter your Review"> <br/> <br/> '
+            + ' <button class="description_button" ng-click="pointCtrl.saveRank(ngDialogData)"> Add </button> <br/> </div>';
+
+        //  self.pointsOrder = "18,10";
 
 
         self.enterOrder = function () {
-            let favToRem=localStorageService.get($rootScope.UserName + 'Removed');
-            if( favToRem!=null){
-            for (let i = 0; i < favToRem.length; i++) {
-                        let p = favToRem[i];
-                        $http({
-                            url: 'reg/user/deleteFromFavorite',
-                            dataType: "json",
-                            method: "DELETE",
-                            data: {
-                                UserName:$rootScope.UserName  ,PointID: p.PointID
-                            },
-                            headers: {
-                                "Content-Type": "application/json"
-                            }
-                        });
-                    }
+            let favToRem = localStorageService.get($rootScope.UserName + 'Removed');
+            if (favToRem != null) {
+                for (let i = 0; i < favToRem.length; i++) {
+                    let p = favToRem[i];
+                    $http({
+                        url: 'reg/user/deleteFromFavorite',
+                        dataType: "json",
+                        method: "DELETE",
+                        data: {
+                            UserName: $rootScope.UserName, PointID: p.PointID
+                        },
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
                 }
-           
+            }
 
-           let favToAdd=localStorageService.get($rootScope.UserName + 'Points');
-                if(favToAdd!=null){
+
+            let favToAdd = localStorageService.get($rootScope.UserName + 'Points');
+            if (favToAdd != null) {
                 for (let i = 0; i < favToAdd.length; i++) {
                     for (let j = 0; j < self.points.length; j++) {
-                        if(favToAdd[i].PointID===self.points[j].PointID){
+                        if (favToAdd[i].PointID === self.points[j].PointID) {
                             let p = self.points[j];
-                            $http.post('reg/user/addToFavorite', { UserName:$rootScope.UserName  ,PointID: p.PointID, OrderNum: p.OrderNum}).catch(function (e) {
-                             return Promise.reject(e);
-                         });
+                            $http.post('reg/user/addToFavorite', { UserName: $rootScope.UserName, PointID: p.PointID, OrderNum: p.OrderNum }).catch(function (e) {
+                                return Promise.reject(e);
+                            });
                         }
                     }
-                   
-                    }
+
                 }
-                    let pointAndOrders="";
-                 for (let i = 0; i < self.points.length; i++) {
-                     pointAndOrders =pointAndOrders+ self.points[i].PointID+','+self.points[i].OrderNum+',';
-                 }
-            $http.put('reg/user/updateFavOrder', { UserName:$rootScope.UserName  ,pointsOrder: pointAndOrders}).then(function (res) {
-               
+            }
+            let pointAndOrders = "";
+            for (let i = 0; i < self.points.length; i++) {
+                pointAndOrders = pointAndOrders + self.points[i].PointID + ',' + self.points[i].OrderNum + ',';
+            }
+            $http.put('reg/user/updateFavOrder', { UserName: $rootScope.UserName, pointsOrder: pointAndOrders }).then(function (res) {
+
             });
             localStorageService.remove($rootScope.UserName + 'Points');
             localStorageService.remove($rootScope.UserName + 'Removed');
@@ -120,7 +127,7 @@ app.controller('favoritesController', ['$scope', '$http', 'localStorageService',
                     if (res.data.length >= 2) {
                         pointDetails.Review2 = res.data[1].Review;
                     }
-                    pointDetails["Rank"]=pointDetails["Rank"]*20;
+                    pointDetails["Rank"] = pointDetails["Rank"] * 20;
                     ngDialog.open({
                         template: html,
                         className: 'ngdialog-theme-default',
@@ -133,4 +140,35 @@ app.controller('favoritesController', ['$scope', '$http', 'localStorageService',
                     return Promise.reject(e);
                 });
         };
+
+        self.openRank = function (point) {
+            ngDialog.open({
+                template: htmlReview,
+                className: 'ngdialog-theme-default',
+                data: point,
+                showClose: true,
+                width: 640
+            })
+        };
+
+        self.saveRank = function (point) {
+            if (!(point.rankInput === null && point.reviewInput === '')) {
+                $http.post('reg/user/addRankToPoint', { PointID: point.PointID, Rank: point.rankInput, UserName: $rootScope.UserName })
+                    .catch(function (e) {
+                        return Promise.reject(e);
+                    });
+                $http.post('reg/user/addReviewToPoint', { PointID: point.PointID, Review: point.reviewInput, UserName: $rootScope.UserName })
+                    .catch(function (e) {
+                        return Promise.reject(e);
+                    });
+                point.rankInput = null;
+                point.reviewInput = '';
+                alert('Rank & Review Saved Succesfuly!');
+            }
+            else {
+                alert('Please enter Rank / Review');
+            }
+
+        };
+
     }]);
