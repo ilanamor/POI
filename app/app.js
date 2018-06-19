@@ -16,7 +16,7 @@ app.config(['ngDialogProvider', function (ngDialogProvider) {
     });
 }]);
 
-app.config(['$qProvider', function ($qProvider) { //
+app.config(['$qProvider', function ($qProvider) { 
     $qProvider.errorOnUnhandledRejections(false);
 }]);
 

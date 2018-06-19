@@ -17,7 +17,7 @@ app.controller('favoritesController', ['$scope', '$http', 'localStorageService',
         let htmlReview = '<div ng-controller="pointsController  as pointCtrl">'
             + '<img ng-src="{{ngDialogData.Pic}}" class="modalImg"/> <br/> '
             + ' <label class="modalHeader">Name:</label> <label class="modalText">{{ngDialogData.PointName}}</label> <br/> <br/>  '
-            + ' <label class="modalHeader">Rank: </label> <input type="number" class="form-control logInput" name="rankInput" ng-model="ngDialogData.rankInput" placeholder="Enter your Rank"> <br/> <br/> '
+            + ' <label class="modalHeader">Rank: </label> <input type="number" class="form-control logInput" name="rankInput" ng-model="ngDialogData.rankInput" placeholder="Enter your Rank" min="1" max="5"> <br/> <br/> '
             + ' <label class="modalHeader">Review: </label> <input type="text" class="form-control logInput" name="reviewInput" ng-model="ngDialogData.reviewInput" placeholder="Enter your Review"> <br/> <br/> '
             + ' <button class="description_button" ng-click="pointCtrl.saveRank(ngDialogData)"> Add </button> <br/> </div>';
 
@@ -121,24 +121,14 @@ app.controller('favoritesController', ['$scope', '$http', 'localStorageService',
                 .catch(function (e) {
                     return Promise.reject(e);
                 });
-            $http.get('point/details/' + self.selectedPoint.PointID)
-                .then(function (res) {
-                    let pointDetails = res.data[0];
-                    if (res.data.length >= 2) {
-                        pointDetails.Review2 = res.data[1].Review;
-                    }
-                    pointDetails["Rank"] = pointDetails["Rank"] * 20;
-                    ngDialog.open({
-                        template: html,
-                        className: 'ngdialog-theme-default',
-                        data: pointDetails,
-                        showClose: true,
-                        width: 640
-                    });
-                })
-                .catch(function (e) {
-                    return Promise.reject(e);
-                });
+
+            ngDialog.open({
+                template: html,
+                className: 'ngdialog-theme-default',
+                data: point,
+                showClose: true,
+                width: 640
+            });
         };
 
         self.openRank = function (point) {

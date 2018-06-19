@@ -7,8 +7,8 @@ app.controller('pointsController', ['$scope', '$http', 'localStorageService', 'U
         self.categoryHeader = "All points";
         self.showAll = true;
         self.sortedOptions = [{ name: 'point name', label: 'PointName', reverse: false },
-        { name: 'Price - low to high', label: 'price', reverse: false },
-        { name: 'Price - high to low', label: 'price', reverse: true }];
+        { name: 'Rank - low to high', label: 'Rank', reverse: false },
+        { name: 'Rank - high to low', label: 'Rank', reverse: true }];
         self.filterBy = "";
         self.orderBy = "";
         self.reverseSort = false;
@@ -28,7 +28,7 @@ app.controller('pointsController', ['$scope', '$http', 'localStorageService', 'U
         let htmlReview = '<div ng-controller="pointsController  as pointCtrl">'
             + '<img ng-src="{{ngDialogData.Pic}}" class="modalImg"/> <br/> '
             + ' <label class="modalHeader">Name:</label> <label class="modalText">{{ngDialogData.PointName}}</label> <br/> <br/>  '
-            + ' <label class="modalHeader">Rank: </label> <input type="number" class="form-control logInput" name="rankInput" ng-model="ngDialogData.rankInput" placeholder="Enter your Rank"> <br/> <br/> '
+            + ' <label class="modalHeader">Rank: </label> <input type="number" class="form-control logInput" name="rankInput" ng-model="ngDialogData.rankInput" placeholder="Enter your Rank" min="1" max="5"> <br/> <br/> '
             + ' <label class="modalHeader">Review: </label> <input type="text" class="form-control logInput" name="reviewInput" ng-model="ngDialogData.reviewInput" placeholder="Enter your Review"> <br/> <br/> ' 
             + ' <button class="description_button" ng-click="pointCtrl.saveRank(ngDialogData)"> Add </button> <br/> </div>' ;
 
@@ -107,24 +107,13 @@ app.controller('pointsController', ['$scope', '$http', 'localStorageService', 'U
                 .catch(function (e) {
                     return Promise.reject(e);
                 });
-            $http.get('point/details/' + self.selectedPoint.PointID)
-                .then(function (res) {
-                    let pointDetails = res.data[0];
-                    if (res.data.length >= 2) {
-                        pointDetails.Review2 = res.data[1].Review;
-                    }
-                    pointDetails["Rank"] = pointDetails["Rank"] * 20;
                     ngDialog.open({
                         template: html,
                         className: 'ngdialog-theme-default',
-                        data: pointDetails,
+                        data: point,
                         showClose: true,
                         width: 640
                     });
-                })
-                .catch(function (e) {
-                    return Promise.reject(e);
-                });
 
         };
 

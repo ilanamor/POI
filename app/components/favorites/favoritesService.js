@@ -11,7 +11,6 @@ angular.module("pointsOfInterest")
 
             //need to show only those who is not in the removed
             service.allpoints = function () {
-                let token = localStorageService.get('user').token;
                 return $http.get('reg/user/' + $rootScope.UserName)
                     .then(function (res) {
                         Promise.resolve(res.data);
@@ -50,9 +49,24 @@ angular.module("pointsOfInterest")
                         }
                         // $rootScope.favoritePoints = service.points;
 
-                        for (var i = 0, len = service.points.length; i < len; i++) { //look for this point using lookup table
+                        for (let i = 0;i<service.points.length; i++) { //look for this point using lookup table
                             service.points[i].inFav = true;
+                            $http.get('point/details/' + service.points[i].PointID)
+                            .then(function (res) {
+                                service.points[i].Rank=res.data[0].Rank*20;
+                                service.points[i].NumOfView=res.data[0].NumOfView;
+                                service.points[i].Description=res.data[0].Description;
+                                service.points[i].Review=res.data[0].Review;
+                                if (res.data.length >= 2) {
+                                    service.points[i].Review2 = res.data[1].Review;
+                                }
+                            })
+                            .catch(function (e) {
+                                return Promise.reject(e);
+                            });
                         }
+
+
 
                     })
                     .catch(function (e) {
