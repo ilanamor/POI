@@ -18,7 +18,8 @@
                 </tr>
                 <tr>
                     <td style="width: 8em">
-                        <button class="description_button" ng-click="favCtrl.open(p)">full details</button>
+                        <button class="description_button" ng-click="favCtrl.open(p)">Full details</button>
+                        <button class="description_button" ng-click="favCtrl.openRank(p)">Add Rank</button>
                     </td>
                     <td style="width: 8em">
                         <img ng-src="assets\images\Fheart.png" class="img_heart" ng-hide="!p.inFav" ng-click="favCtrl.favorites(p)"/>
@@ -49,3 +50,5 @@
         <label class="amount">Click For Save Changes!</label>
         <br/>
         <button class="save_button" ng-click="favCtrl.enterOrder()">Save Favorite`s Order</button>
+    </div>
+</div>
