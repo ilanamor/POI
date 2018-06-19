@@ -18,18 +18,24 @@ app.controller('favoritesController', ['$scope', '$http', 'localStorageService',
 
 
         self.enterOrder = function () {
-            if( favoritesService.LocalRemoved!=null){
-            for (let i = 0; i < favoritesService.LocalRemoved.length; i++) {
-                for (let j = 0; j < self.points.length; j++) {
-                    if(favoritesService.LocalRemoved[i].PointID===self.points[j].PointID){
-                        let p = self.points[j];
-                        $http.delete('reg/user/deleteFromFavorite', { UserName:$rootScope.UserName  ,PointID: p.PointID}).catch(function (e) {
-                            return Promise.reject(e);
+            let favToRem=localStorageService.get($rootScope.UserName + 'Removed');
+            if( favToRem!=null){
+            for (let i = 0; i < favToRem.length; i++) {
+                        let p = favToRem[i];
+                        $http({
+                            url: 'reg/user/deleteFromFavorite',
+                            dataType: "json",
+                            method: "DELETE",
+                            data: {
+                                UserName:$rootScope.UserName  ,PointID: p.PointID
+                            },
+                            headers: {
+                                "Content-Type": "application/json"
+                            }
                         });
                     }
                 }
-                }
-            }
+           
 
            let favToAdd=localStorageService.get($rootScope.UserName + 'Points');
                 if(favToAdd!=null){
@@ -50,9 +56,11 @@ app.controller('favoritesController', ['$scope', '$http', 'localStorageService',
                      pointAndOrders =pointAndOrders+ self.points[i].PointID+','+self.points[i].OrderNum+',';
                  }
             $http.put('reg/user/updateFavOrder', { UserName:$rootScope.UserName  ,pointsOrder: pointAndOrders}).then(function (res) {
-                alert('Favorite`s Order Save Succesfuly!');
+               
             });
-       //need to clean l.s after delete and 
+            localStorageService.remove($rootScope.UserName + 'Points');
+            localStorageService.remove($rootScope.UserName + 'Removed');
+            alert('Favorite`s Order Save Succesfuly!');
         };
 
         favoritesService.allpoints()
