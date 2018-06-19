@@ -26,15 +26,6 @@
     order: 1;
 }
 
-.recHeader{
-    font-family: 'Acme', sans-serif;
-    display: block;
-    font-size: 36px;
-    color: #fff8fd;
-    text-align: center;
-    text-shadow: rgb(212, 204, 204) 4px 4px 1px;
-    margin-top: 2%;
-}
 .ico{
     color: #101010;
     float: left;
@@ -112,7 +103,7 @@
     opacity: 0.3;
 }
 
-.product_description{
+.point_description{
     width: 15em;
     height: 23em;
     margin-right: 0.5em;
@@ -141,13 +132,6 @@
     font-size: 0.9em;
 }
 
-.price{
-    float: right;
-    font-size: 1.1em;
-    font-weight: bold;
-    text-align: center;
-}
-
 .button_description{
     width: 14.3em;
     height: 2em;
@@ -171,7 +155,6 @@
     background-color: #ffc1c6;
 }
 
-
 .header_content{
    color: white;
     font-family: Courgette, sans-serif;
@@ -193,34 +176,4 @@
     margin-right: 0.7em;
     margin-top: 0.5em;
     width: 10em;
-}
-
-.rcmnd_gif{
-    width: 10em;
-    height: 9em;
-    margin-left: 2.2em;
-    margin-top: 2em;
-    opacity: 0.8;
-    border-radius: 23%;
-    -moz-box-shadow: inset 10px 10px 50px #fff;
-    box-shadow: 0 1px 50px 20px #fff;
-}
-
-.recommended{
-    margin: 4px;
-    padding: 5px;
-    border: 1px solid white;
-    border-radius: 7pt;
-    background-color: rgba(247, 225, 225, 0.78);
-    flex: 1 6 20%;
-    order: 3;
-}
-
-.recommended_text{
-    color: white;
-    font-family: Courgette, sans-serif;
-    font-size: 2em;
-    display: block;
-    text-align: center;
-    padding-top: 7.4em;
 }

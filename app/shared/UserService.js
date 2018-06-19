@@ -33,9 +33,7 @@ angular.module("pointsOfInterest")
                     });
                 if (!$rootScope.guest) {
                     if (!$rootScope.popular2) {
-                        let user = localStorageService.get('user').UserName;
-                        //let token = localStorageService.get('user').token;
-                        $http.get('reg/user/twoPopularPoints/' + user)
+                        $http.get('reg/user/twoPopularPoints/' + $rootScope.UserName)
                             .then(function (res) {
                                 $rootScope.popular2 = res.data;
                             })
@@ -44,9 +42,7 @@ angular.module("pointsOfInterest")
                             });
                     }
                     if (!$rootScope.latest2) {
-                        let user = localStorageService.get('user').UserName;
-                        //let token = localStorageService.get('user').token;
-                        $http.get('reg/user/twoLastPoints/' + user)
+                        $http.get('reg/user/twoLastPoints/' + $rootScope.UserName)
                             .then(function (res) {
                                 $rootScope.latest2 = res.data;
                             })

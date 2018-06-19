@@ -49,21 +49,21 @@ angular.module("pointsOfInterest")
                         }
                         // $rootScope.favoritePoints = service.points;
 
-                        for (let i = 0;i<service.points.length; i++) { //look for this point using lookup table
+                        for (let i = 0; i < service.points.length; i++) { //look for this point using lookup table
                             service.points[i].inFav = true;
                             $http.get('point/details/' + service.points[i].PointID)
-                            .then(function (res) {
-                                service.points[i].Rank=res.data[0].Rank*20;
-                                service.points[i].NumOfView=res.data[0].NumOfView;
-                                service.points[i].Description=res.data[0].Description;
-                                service.points[i].Review=res.data[0].Review;
-                                if (res.data.length >= 2) {
-                                    service.points[i].Review2 = res.data[1].Review;
-                                }
-                            })
-                            .catch(function (e) {
-                                return Promise.reject(e);
-                            });
+                                .then(function (res) {
+                                    service.points[i].Rank = res.data[0].Rank * 20;
+                                    service.points[i].NumOfView = res.data[0].NumOfView;
+                                    service.points[i].Description = res.data[0].Description;
+                                    service.points[i].Review = res.data[0].Review;
+                                    if (res.data.length >= 2) {
+                                        service.points[i].Review2 = res.data[1].Review;
+                                    }
+                                })
+                                .catch(function (e) {
+                                    return Promise.reject(e);
+                                });
                         }
 
 
@@ -76,89 +76,77 @@ angular.module("pointsOfInterest")
 
             //add to local storage
             service.addTofavorites = function (point) {
-                // if ($rootScope.guest) {
-                //     alert('If you want to add a point please log in first!');
-                // }
-                // else {
-                    if (!service.serverPoints[point.PointID]) {
-                        let valueStored = localStorageService.get($rootScope.UserName + 'Points');
-                        if (!valueStored) { // first point in the favorites
-                            point.Amount = 1;
-                            localStorageService.set($rootScope.UserName + 'Points', [point]);
-                            alert('point was added successfully');
+                if (!service.serverPoints[point.PointID]) {
+                    let valueStored = localStorageService.get($rootScope.UserName + 'Points');
+                    if (!valueStored) { // first point in the favorites
+                        localStorageService.set($rootScope.UserName + 'Points', [point]);
+                        alert('point was added successfully');
 
-                        } else {
-                            var lookup = {};
-                            for (var i = 0, len = valueStored.length; i < len; i++) { //look for this point using lookup table
-                                lookup[valueStored[i].PointID] = valueStored[i];
-                            }
-                            var exist = lookup[point.PointID];
-                            if (!exist) { // verify that the point is not already in the favorites
-                                point.Amount = 1;
-                                valueStored.push(point);
-                                localStorageService.set($rootScope.UserName + 'Points', valueStored);
-                            }
-                            alert('point was added successfully');
-                        }
                     } else {
-
-                        //remove from Remove localStorage
-                        service.LocalRemoved = localStorageService.get($rootScope.UserName + 'Removed');
-                        if (service.LocalRemoved != null) {
-                            let finalRemoved = [];
-                            for (let i = 0; i < service.LocalRemoved.length; i++) {
-                                if (service.LocalRemoved[i].PointID != point.PointID) {
-                                    finalRemoved.push(service.LocalRemoved[i]);
-                                }
-                            }
-                            localStorageService.set($rootScope.UserName + 'Removed', finalRemoved);
+                        var lookup = {};
+                        for (var i = 0, len = valueStored.length; i < len; i++) { //look for this point using lookup table
+                            lookup[valueStored[i].PointID] = valueStored[i];
+                        }
+                        var exist = lookup[point.PointID];
+                        if (!exist) { // verify that the point is not already in the favorites
+                            valueStored.push(point);
+                            localStorageService.set($rootScope.UserName + 'Points', valueStored);
                         }
                         alert('point was added successfully');
                     }
-              //  }
+                } else {
+
+                    //remove from Remove localStorage
+                    service.LocalRemoved = localStorageService.get($rootScope.UserName + 'Removed');
+                    if (service.LocalRemoved != null) {
+                        let finalRemoved = [];
+                        for (let i = 0; i < service.LocalRemoved.length; i++) {
+                            if (service.LocalRemoved[i].PointID != point.PointID) {
+                                finalRemoved.push(service.LocalRemoved[i]);
+                            }
+                        }
+                        localStorageService.set($rootScope.UserName + 'Removed', finalRemoved);
+                    }
+                    alert('point was added successfully');
+                }
             };
 
             //delete from local sorage
             service.removeFromfavorites = function (point) {
-                // if ($rootScope.guest) {
-                //     alert('If you want to add a point please log in first!');
-                // }
-                // else {
-                    if (service.serverPoints[point.PointID]) {
-                        let valueStored = localStorageService.get($rootScope.UserName + 'Removed');
-                        if (!valueStored) { // first point in the removed
-                            localStorageService.set($rootScope.UserName + 'Removed', [point]);
-                            alert('point was removed successfully');
+                if (service.serverPoints[point.PointID]) {
+                    let valueStored = localStorageService.get($rootScope.UserName + 'Removed');
+                    if (!valueStored) { // first point in the removed
+                        localStorageService.set($rootScope.UserName + 'Removed', [point]);
+                        alert('point was removed successfully');
+                    }
+                    else {
+                        var lookup = {};
+                        for (var i = 0, len = valueStored.length; i < len; i++) { //look for this point using lookup table
+                            lookup[valueStored[i].PointID] = valueStored[i];
                         }
-                        else {
-                            var lookup = {};
-                            for (var i = 0, len = valueStored.length; i < len; i++) { //look for this point using lookup table
-                                lookup[valueStored[i].PointID] = valueStored[i];
-                            }
-                            var exist = lookup[point.PointID];
-                            if (!exist) { // verify that the point is not already in the removed
-                                valueStored.push(point);
-                                localStorageService.set($rootScope.UserName + 'Removed', valueStored);
-                            }
-                            alert('point was removed successfully');
-                        }
-                    } else {
-
-                        //remove from favorite localStorage
-                        service.Localfavorites = localStorageService.get($rootScope.UserName + 'Points');
-                        if (service.Localfavorites != null) {
-                            let finalFavorites = [];
-                            for (let i = 0; i < service.Localfavorites.length; i++) {
-                                if (service.Localfavorites[i].PointID != point.PointID) {
-                                    finalFavorites.push(service.Localfavorites[i]);
-                                }
-                            }
-                            localStorageService.set($rootScope.UserName + 'Points', finalFavorites);
+                        var exist = lookup[point.PointID];
+                        if (!exist) { // verify that the point is not already in the removed
+                            valueStored.push(point);
+                            localStorageService.set($rootScope.UserName + 'Removed', valueStored);
                         }
                         alert('point was removed successfully');
                     }
+                } else {
+
+                    //remove from favorite localStorage
+                    service.Localfavorites = localStorageService.get($rootScope.UserName + 'Points');
+                    if (service.Localfavorites != null) {
+                        let finalFavorites = [];
+                        for (let i = 0; i < service.Localfavorites.length; i++) {
+                            if (service.Localfavorites[i].PointID != point.PointID) {
+                                finalFavorites.push(service.Localfavorites[i]);
+                            }
+                        }
+                        localStorageService.set($rootScope.UserName + 'Points', finalFavorites);
+                    }
+                    alert('point was removed successfully');
                 }
-            //};
+            }
 
             return service;
         }]);

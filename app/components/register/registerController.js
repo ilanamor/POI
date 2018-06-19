@@ -7,7 +7,6 @@ app.controller('registerController', ['$scope', '$location', '$window', '$http',
         Country: '', Email: '', Answer1: '', Answer2: '',Category: ''};
         self.Countries = [];
         self.catArray=[];
-        //self.categories=[];
 
         loadXMLDoc(); // load cuntries document
 
@@ -41,6 +40,7 @@ app.controller('registerController', ['$scope', '$location', '$window', '$http',
             xmlhttp.open("GET", "../../shared/countries.xml", true);
             xmlhttp.send();
         }
+        
         function findCountries(xml) {
             var i;
             var xmlDoc = xml.responseXML;

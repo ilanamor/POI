@@ -29,7 +29,8 @@
     transition: .5s ease;
     backface-visibility: hidden;
 }
-.amount{
+
+.textLabel{
     display: block;
     margin: 0;
     font-size: 1.5em;
@@ -37,11 +38,12 @@
     text-align: center;
     position: static;
 }
+
 .save_button{
     padding: 10px 40px;
     margin: 4px 0px 10px 1px;
     color: #ffffff;
-    background: #94cedc;
+    background: #f58fa9;
     border: none;
     font-size: 18px;
     cursor: pointer;
@@ -51,7 +53,7 @@
     -moz-transition: 0.5s all;
     border-radius: 2%;
     font-family: 'Shrikhand', cursive;
-    margin-left: 45%;
+    margin-left: 38%;
     letter-spacing: 2px;
 }
 
@@ -86,6 +88,7 @@
     float: none;
     margin: 0;
 }
+
 .ngdialog.ngdialog-custom .ngdialog-content {
     height: 800em;
 }

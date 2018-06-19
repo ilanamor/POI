@@ -21,8 +21,14 @@ app.controller('favoritesController', ['$scope', '$http', 'localStorageService',
             + ' <label class="modalHeader">Review: </label> <input type="text" class="form-control logInput" name="reviewInput" ng-model="ngDialogData.reviewInput" placeholder="Enter your Review"> <br/> <br/> '
             + ' <button class="description_button" ng-click="pointCtrl.saveRank(ngDialogData)"> Add </button> <br/> </div>';
 
-        //  self.pointsOrder = "18,10";
-
+        self.categoryHeader = "All points";
+        self.showAll = true;
+        self.sortedOptions = [{ name: 'point name', label: 'PointName', reverse: false },
+        { name: 'Rank - low to high', label: 'Rank', reverse: false },
+        { name: 'Rank - high to low', label: 'Rank', reverse: true }];
+        self.filterBy = "";
+        self.orderBy = "";
+        self.reverseSort = false;
 
         self.enterOrder = function () {
             let favToRem = localStorageService.get($rootScope.UserName + 'Removed');
@@ -72,7 +78,7 @@ app.controller('favoritesController', ['$scope', '$http', 'localStorageService',
 
         favoritesService.allpoints()
             .then(function () {
-                self.points = favoritesService.points; // now all the points are save in pointservice.points !
+                self.points = favoritesService.points; 
 
             });
 
@@ -87,33 +93,41 @@ app.controller('favoritesController', ['$scope', '$http', 'localStorageService',
             }
             favoritesService.allpoints()
                 .then(function () {
-                    self.points = favoritesService.points; // now all the points are save in pointservice.points !
+                    self.points = favoritesService.points; 
                 });
         }
 
-        // $http.get('point/allCategories') // get categories
-        //     .then(function (res) {
-        //         self.categories = res.data;
+        $http.get('point/allCategories')
+            .then(function (res) {
+                self.categories = res.data;
 
-        //     }).catch(function (e) {
-        //         return Promise.reject(e);
-        //     });
+            }).catch(function (e) {
+                return Promise.reject(e);
+            });
 
-        // self.selectCategory = function (CategoryID) {
-        //     self.showAll = false;
-        //     self.categoryHeader = CategoryID;
-        //     $http.get('point/'+CategoryID).then(function (res) {
-        //         self.pointsToShow = res.data;
-        //     });
-        //     self.orderBy = "";
-        // };
+        self.selectCategory = function (CategoryID) {
+            self.showAll = false;
+            self.categoryHeader = CategoryID;
+            self.pointsByCategory=[];
+            $http.get('point/' + CategoryID).then(function (res) {
+                for(var i=0; i<res.data.length;i++){
+                    for(var j=0; j<favoritesService.points.length;j++){
+                        if(res.data[i].PointID===favoritesService.points[j].PointID){
+                            self.pointsByCategory.push(favoritesService.points[j]);
+                        }
+                    }
+                }
+                self.points = self.pointsByCategory;
+            });
+            self.orderBy = "";
+        };
 
-        // self.selectAll = function () {
-        //     self.showAll = true;
-        //     self.categoryHeader = "All points";
-        //     self.pointsToShow = favoritesService.points;
-        //     self.orderBy ="";
-        // };
+        self.selectAll = function () {
+            self.showAll = true;
+            self.categoryHeader = "All points";
+            self.points = favoritesService.points;
+            self.orderBy = "";
+        };
 
         self.open = function (point) {
             self.selectedPoint = point;
