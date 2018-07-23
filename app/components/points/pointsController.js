@@ -38,7 +38,7 @@ app.controller('pointsController', ['$scope', '$http', 'localStorageService', 'U
                 favoritesService.allpoints()
                     .then(function () {
                         if (!$rootScope.guest) {
-                            self.currentFavorites = favoritesService.points; // now all the points are save in pointservice.points !
+                            self.currentFavorites = favoritesService.points; 
                             for (let i = 0; i < self.points.length; i++) {
                                 for (let j = 0; j < self.currentFavorites.length; j++) {
                                     if (self.points[i].PointID === self.currentFavorites[j].PointID) {

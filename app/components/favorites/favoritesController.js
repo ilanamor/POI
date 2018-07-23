@@ -165,9 +165,11 @@ app.controller('favoritesController', ['$scope', '$http', 'localStorageService',
                     .catch(function (e) {
                         return Promise.reject(e);
                     });
+
                 point.rankInput = null;
                 point.reviewInput = '';
                 alert('Rank & Review Saved Succesfuly!');
+                $window.location.reload();
             }
             else {
                 alert('Please enter Rank / Review');

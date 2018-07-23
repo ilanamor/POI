@@ -11,7 +11,7 @@ angular.module("pointsOfInterest")
                 if (localStorageService.isSupported) {
                     let user = localStorageService.get('user');
                     if (user) {
-                        $rootScope.UserName = user.UserName; // extract cookie data
+                        $rootScope.UserName = user.UserName; 
 
                         $http.defaults.headers.common[ 'x-access-token' ]=user.token;
                         $rootScope.guest = false;                 //update that this is not a guest
@@ -32,16 +32,13 @@ angular.module("pointsOfInterest")
                         return Promise.reject(e);
                     });
                 if (!$rootScope.guest) {
-                    if (!$rootScope.popular2) {
                         $http.get('reg/user/twoPopularPoints/' + $rootScope.UserName)
                             .then(function (res) {
                                 $rootScope.popular2 = res.data;
                             })
                             .catch(function (e) {
                                 return Promise.reject(e);
-                            });
-                    }
-                    if (!$rootScope.latest2) {
+                            });                   
                         $http.get('reg/user/twoLastPoints/' + $rootScope.UserName)
                             .then(function (res) {
                                 $rootScope.latest2 = res.data;
@@ -49,7 +46,6 @@ angular.module("pointsOfInterest")
                             .catch(function (e) {
                                 return Promise.reject(e);
                             });
-                    }
                 }
             };
 
