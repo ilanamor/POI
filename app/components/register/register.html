@@ -43,7 +43,7 @@
                             <span ng-show="(registerForm.passwordInput.$pristine || registerForm.passwordInput.$touched) && registerForm.passwordInput.$error.required && registerForm.$submitted" class="help-block">Password is required</span>
                             <span ng-show="registerForm.passwordInput.$error.minlength" class="help-block"> Password must contain at least 5 characters</span>
                             <span ng-show="registerForm.passwordInput.$error.maxlength" class="help-block"> Password must contain at maximum of 10 characters</span>
-                            <span ng-show="registerForm.passwordInput.$error.pattern">Password should contain letters and numbers.</span>
+                            <span ng-show="registerForm.passwordInput.$error.pattern" class="help-block">Password should contain letters and numbers</span>
 
                         </td>
                         <!-- Answer1 -->
