@@ -60,6 +60,7 @@ app.controller('pointsController', ['$scope', '$http', 'localStorageService', 'U
 
                     })
             });
+
         
 
         $http.get('point/allCategories') // get categories
@@ -76,9 +77,9 @@ app.controller('pointsController', ['$scope', '$http', 'localStorageService', 'U
             self.pointsByCategory = [];
             $http.get('point/' + CategoryID).then(function (res) {
                 for(var i=0; i<res.data.length;i++){
-                    for(var j=0; j<self.points.length;j++){
-                        if(res.data[i].PointID===self.points[j].PointID){
-                            self.pointsByCategory.push(self.points[j]);
+                    for(var j=0; j<pointsService.points.length;j++){
+                        if(res.data[i].PointID===pointsService.points[j].PointID){
+                            self.pointsByCategory.push(pointsService.points[j]);
                         }
                     }
                 }
@@ -90,7 +91,7 @@ app.controller('pointsController', ['$scope', '$http', 'localStorageService', 'U
         self.selectAll = function () {
             self.showAll = true;
             self.categoryHeader = "All points";
-            // self.points = pointsService.points;
+            self.points=pointsService.points;
             self.orderBy = "";
         };
 
