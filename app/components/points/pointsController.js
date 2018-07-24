@@ -15,6 +15,7 @@ app.controller('pointsController', ['$scope', '$http', 'localStorageService', 'U
 
         self.selectedPoint = null;
         self.currentFavorites = null;
+        self.points = null;
 
 
         let html = '<img ng-src="{{ngDialogData.Pic}}" class="modalImg"/> <br/> '
@@ -59,6 +60,7 @@ app.controller('pointsController', ['$scope', '$http', 'localStorageService', 'U
 
                     })
             });
+        
 
         $http.get('point/allCategories') // get categories
             .then(function (res) {
@@ -71,8 +73,16 @@ app.controller('pointsController', ['$scope', '$http', 'localStorageService', 'U
         self.selectCategory = function (CategoryID) {
             self.showAll = false;
             self.categoryHeader = CategoryID;
+            self.pointsByCategory = [];
             $http.get('point/' + CategoryID).then(function (res) {
-                self.points = res.data;
+                for(var i=0; i<res.data.length;i++){
+                    for(var j=0; j<self.points.length;j++){
+                        if(res.data[i].PointID===self.points[j].PointID){
+                            self.pointsByCategory.push(self.points[j]);
+                        }
+                    }
+                }
+                self.points = self.pointsByCategory;
             });
             self.orderBy = "";
         };
@@ -80,7 +90,7 @@ app.controller('pointsController', ['$scope', '$http', 'localStorageService', 'U
         self.selectAll = function () {
             self.showAll = true;
             self.categoryHeader = "All points";
-            self.points = pointsService.points;
+            // self.points = pointsService.points;
             self.orderBy = "";
         };
 
@@ -104,17 +114,34 @@ app.controller('pointsController', ['$scope', '$http', 'localStorageService', 'U
         self.open = function (point) {
             self.selectedPoint = point;
             $http.put('point/upViews/' + self.selectedPoint.PointID)
-                .catch(function (e) {
-                    return Promise.reject(e);
-                });
-                    ngDialog.open({
-                        template: html,
-                        className: 'ngdialog-theme-default',
-                        data: point,
-                        showClose: true,
-                        width: 640
+            .then(function(){
+                $http.get('point/details/' + point.PointID)
+                .then(function (res) {
+                    for (let i = 0; i < self.points.length; i++) {
+                        if(self.points[i].PointID===res.data[0].PointID){
+                            self.points[i].NumOfView = res.data[0].NumOfView;
+                            self.points[i].Rank = res.data[0].Rank * 20;
+                            self.points[i].Review = res.data[0].Review;
+                            if (res.data.length >= 2) {
+                                self.points[i].Review2 = res.data[1].Review;
+                            }
+                            break;
+                        }
+                    }})
+                    .catch(function (e) {
+                        return Promise.reject(e);
                     });
-
+            })
+            .catch(function (e) {
+                return Promise.reject(e);
+            });
+            ngDialog.open({
+                template: html,
+                className: 'ngdialog-theme-default',
+                data: self.selectedPoint,
+                showClose: true,
+                width: 640
+            });
         };
 
         self.openRank = function (point) {
@@ -134,9 +161,9 @@ app.controller('pointsController', ['$scope', '$http', 'localStorageService', 'U
                     return Promise.reject(e);
                 });
             $http.post('reg/user/addReviewToPoint',{PointID:point.PointID,Review:point.reviewInput,UserName:$rootScope.UserName})
-                .catch(function (e) {
-                    return Promise.reject(e);
-                });
+            .catch(function (e) {
+                return Promise.reject(e);
+            });
             point.rankInput=null;
             point.reviewInput='';
             alert('Rank & Review Saved Succesfuly!');

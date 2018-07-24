@@ -132,6 +132,24 @@ app.controller('favoritesController', ['$scope', '$http', 'localStorageService',
         self.open = function (point) {
             self.selectedPoint = point;
             $http.put('point/upViews/' + self.selectedPoint.PointID)
+                .then(function(){
+                    $http.get('point/details/' + point.PointID)
+                    .then(function (res) {
+                        for (let i = 0; i < self.points.length; i++) {
+                            if(self.points[i].PointID===res.data[0].PointID){
+                                self.points[i].NumOfView = res.data[0].NumOfView;
+                                self.points[i].Rank = res.data[0].Rank * 20;
+                                self.points[i].Review = res.data[0].Review;
+                                if (res.data.length >= 2) {
+                                    self.points[i].Review2 = res.data[1].Review;
+                                }
+                                break;
+                            }
+                        }})
+                        .catch(function (e) {
+                            return Promise.reject(e);
+                        });
+                })
                 .catch(function (e) {
                     return Promise.reject(e);
                 });
@@ -169,7 +187,6 @@ app.controller('favoritesController', ['$scope', '$http', 'localStorageService',
                 point.rankInput = null;
                 point.reviewInput = '';
                 alert('Rank & Review Saved Succesfuly!');
-                $window.location.reload();
             }
             else {
                 alert('Please enter Rank / Review');
