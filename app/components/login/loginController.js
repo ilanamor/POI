@@ -1,8 +1,6 @@
-'use strict';
 
-//-------------------------------------------------------------------------------------------------------------------
-
-app.controller('loginController', ['$scope', 'UserService', '$location', '$window', '$http', 'localStorageService', '$rootScope',
+angular.module("pointsOfInterest")
+.controller('loginController', ['$scope', 'UserService', '$location', '$window', '$http', 'localStorageService', '$rootScope',
     function ($scope, UserService, $location, $window, $http, localStorageService, $rootScope) {
 
         let self = this;

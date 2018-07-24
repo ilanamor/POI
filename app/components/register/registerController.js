@@ -1,6 +1,6 @@
-'use strict';
 
-app.controller('registerController', ['$scope', '$location', '$window', '$http',
+angular.module("pointsOfInterest")
+.controller('registerController', ['$scope', '$location', '$window', '$http',
     function($scope, $location, $window, $http) {
         let self = this;
         self.user = {UserName: '', Password: '', FirstName: '', LastName: '' , City: '',

@@ -1,6 +1,6 @@
-'use strict';
-//-------------------------------------------------------------------------------------------------------------------
-app.controller('homeController', ['$scope', '$http', 'localStorageService', '$rootScope', 'UserService', 'favoritesService', 'ngDialog',
+
+angular.module("pointsOfInterest")
+.controller('homeController', ['$scope', '$http', 'localStorageService', '$rootScope', 'UserService', 'favoritesService', 'ngDialog',
     function ($scope, $http, localStorageService, $rootScope, UserService, favoritesService, ngDialog) {
         let self = this;
         self.selectedPoint = null;
@@ -8,7 +8,7 @@ app.controller('homeController', ['$scope', '$http', 'localStorageService', '$ro
 
         let html = '<img ng-src="{{ngDialogData.Pic}}" class="modalImg"/> <br/> '
             + ' <label class="modalHeader">Name:</label> <label class="modalText">{{ngDialogData.PointName}}</label>  <br/>  '
-            + ' <label class="modalHeader">Rank: </label> <label class="modalText"> {{ngDialogData.Rank}} </label>  <br/>'
+            + ' <label class="modalHeader">Rank: </label> <label class="modalText"> {{ngDialogData.Rank}}%</label>  <br/>'
             + ' <label class="modalHeader">Num of views: </label> <label class="modalText">{{ngDialogData.NumOfView}}</label> <br/>'
             + ' <label class="modalHeader">Description: </label> <label class="modalText"> {{ngDialogData.Description}}</label> <br/>'
             + ' <label class="modalHeader">Review-1: </label> <label class="modalText"> "{{ngDialogData.Review}}"</label> <br/>'

@@ -26,7 +26,7 @@
             <div class="description">
                 <label class="header_description"> {{p.PointName}}</label>
                 <br>
-                <button class="description_button" ng-click="pointCtrl.openRank(p)">Add Rank</button>
+                <button class="description_button" ng-click="pointCtrl.openRank(p)" ng-hide="$root.guest">Add Rank</button>
                 <img ng-src="assets\images\Fheart.png" class="img_heart" ng-hide="!p.inFav" ng-click="pointCtrl.favorites(p)" />
                 <img ng-src="assets\images\Eheart.png" class="img_heart" ng-hide="p.inFav" ng-click="pointCtrl.favorites(p)" />
             </div>

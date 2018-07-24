@@ -1,6 +1,7 @@
 
 
-app.controller('pointsController', ['$scope', '$http', 'localStorageService', 'UserService', 'pointsService', '$rootScope', 'favoritesService', 'ngDialog',
+angular.module("pointsOfInterest")
+.controller('pointsController', ['$scope', '$http', 'localStorageService', 'UserService', 'pointsService', '$rootScope', 'favoritesService', 'ngDialog',
     function ($scope, $http, localStorageService, UserService, pointsService, $rootScope, favoritesService, ngDialog) {
         let self = this;
 

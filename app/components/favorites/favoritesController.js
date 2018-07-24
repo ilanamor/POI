@@ -1,7 +1,7 @@
 
-'use strict';
-//-------------------------------------------------------------------------------------------------------------------
-app.controller('favoritesController', ['$scope', '$http', 'localStorageService', '$rootScope', 'ngDialog', 'favoritesService',
+
+angular.module("pointsOfInterest")
+.controller('favoritesController', ['$scope', '$http', 'localStorageService', '$rootScope', 'ngDialog', 'favoritesService',
     function ($scope, $http, localStorageService, $rootScope, ngDialog, favoritesService) {
         let self = this;
         self.selectedPoint = null;
