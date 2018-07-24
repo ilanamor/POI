@@ -8,7 +8,7 @@ angular.module("pointsOfInterest")
 
         let html = '<img ng-src="{{ngDialogData.Pic}}" class="modalImg"/> <br/> '
             + ' <label class="modalHeader">Name:</label> <label class="modalText">{{ngDialogData.PointName}}</label>  <br/>  '
-            + ' <label class="modalHeader">Rank: </label> <label class="modalText"> {{ngDialogData.Rank}}% </label>  <br/>'
+            + ' <label class="modalHeader">Rank (1-5): </label> <label class="modalText"> {{ngDialogData.Rank}}% </label>  <br/>'
             + ' <label class="modalHeader">Num of views: </label> <label class="modalText">{{ngDialogData.NumOfView}}</label> <br/>'
             + ' <label class="modalHeader">Description: </label> <label class="modalText"> {{ngDialogData.Description}}</label> <br/>'
             + ' <label class="modalHeader">Review-1: </label> <label class="modalText"> "{{ngDialogData.Review}}"</label> <br/>'
@@ -175,6 +175,7 @@ angular.module("pointsOfInterest")
 
         self.saveRank = function (point) {
             if (!(point.rankInput === null && point.reviewInput === '')) {
+                if(point.rankInput>0 && point.rankInput<=5){
                 $http.post('reg/user/addRankToPoint', { PointID: point.PointID, Rank: point.rankInput, UserName: $rootScope.UserName })
                     .catch(function (e) {
                         return Promise.reject(e);
@@ -188,6 +189,10 @@ angular.module("pointsOfInterest")
                 point.reviewInput = '';
                 alert('Rank & Review Saved Succesfuly!');
             }
+            else{
+                alert('Error: Rank should be between 1 to 5');
+            }
+        }
             else {
                 alert('Please enter Rank / Review');
             }
