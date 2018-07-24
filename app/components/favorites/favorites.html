@@ -52,12 +52,12 @@
         <div ng-hide="favCtrl.points.length">
             <br>
             <br>
-            <label class="textLabel"> Your favorites is empty</label>
+            <label class="textLabel"> Your favorites is empty </label>
             <br>
             <br>
         </div>
         <br><br><br><br>
-        <div>
+        <div ng-show="favCtrl.showAll">
             <label class="textLabel">Click For Save Changes!</label>
             <button class="save_button" ng-click="favCtrl.enterOrder()">Save Favorite`s Order</button>
         </div>
